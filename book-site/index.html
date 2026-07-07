@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OWN THE BUYER</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,500&family=Work+Sans:wght@400;500;600&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --maroon: #420b17;
+    --maroon-deep: #350D16;
+    --parchment: #F3E9D2;
+    --parchment-dim: #E9DCBE;
+    --ink: #241512;
+    --gold: #C6963C;
+    --gold-bright: #E0B45C;
+    --mtn-yellow: #FFCB05;
+    --airtel-red: #C8102E;
+    --line: rgba(36,21,18,0.15);
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--parchment);
+    color:var(--ink);
+    font-family:'Work Sans', sans-serif;
+    font-size:16px;
+    line-height:1.6;
+  }
+  h1,h2,h3,.display{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    margin:0;
+    letter-spacing:-0.01em;
+  }
+  .mono{ font-family:'Roboto Mono', monospace; letter-spacing:0.02em; }
+  .eyebrow{
+    font-family:'Roboto Mono', monospace;
+    font-size:12px;
+    text-transform:uppercase;
+    letter-spacing:0.14em;
+    color:var(--gold);
+  }
+  a{color:inherit;}
+  img{max-width:100%;display:block;}
+  .wrap{max-width:1140px;margin:0 auto;padding:0 32px;}
+
+  /* ---------- HERO ---------- */
+  .hero{
+    background:var(--maroon);
+    color:var(--parchment);
+    position:relative;
+    overflow:hidden;
+  }
+  .hero::before{
+    content:"";
+    position:absolute; inset:0;
+    background-image: repeating-linear-gradient(0deg, rgba(230,196,120,0.05) 0px, rgba(230,196,120,0.05) 1px, transparent 1px, transparent 44px);
+    pointer-events:none;
+  }
+  .hero-grid{
+    display:grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap:56px;
+    align-items:center;
+    padding:88px 32px 76px;
+    position:relative;
+  }
+  .hero-copy .eyebrow{ opacity:0; animation: rise .7s ease forwards; animation-delay:.05s;}
+  .hero-copy h1{
+    font-size:clamp(40px, 5.4vw, 68px);
+    line-height:1.02;
+    margin-top:14px;
+    opacity:0; animation: rise .7s ease forwards; animation-delay:.15s;
+  }
+  .hero-copy .subtitle{
+    font-family:'Fraunces', serif;
+    font-style:italic;
+    font-size:19px;
+    color:var(--gold-bright);
+    margin-top:16px;
+    opacity:0; animation: rise .7s ease forwards; animation-delay:.28s;
+  }
+  .hero-copy p.desc{
+    margin-top:22px;
+    max-width:46ch;
+    color:rgba(243,233,210,0.82);
+    font-size:16px;
+    opacity:0; animation: rise .7s ease forwards; animation-delay:.38s;
+  }
+  .hero-buy-row{
+    margin-top:34px;
+    display:flex;
+    align-items:center;
+    gap:20px;
+    flex-wrap:wrap;
+    opacity:0; animation: rise .7s ease forwards; animation-delay:.5s;
+  }
+  .price-tag{
+    font-family:'Roboto Mono', monospace;
+    font-size:26px;
+    font-weight:500;
+    color:var(--parchment);
+  }
+  .price-tag .cur{ font-size:14px; color:var(--gold-bright); vertical-align:top; margin-right:2px;}
+  .btn-buy{
+    background:var(--gold);
+    color:var(--maroon-deep);
+    border:none;
+    font-family:'Work Sans', sans-serif;
+    font-weight:600;
+    font-size:15px;
+    padding:15px 28px;
+    border-radius:3px;
+    cursor:pointer;
+    transition:transform .15s ease, background .2s ease;
+  }
+  .btn-buy:hover{ background:var(--gold-bright); transform:translateY(-1px);}
+  .btn-buy:active{ transform:translateY(0px) scale(0.98);}
+  .hero-meta{
+    margin-top:20px;
+    display:flex; gap:22px; flex-wrap:wrap;
+    font-family:'Roboto Mono', monospace;
+    font-size:12px;
+    color:rgba(243,233,210,0.6);
+    opacity:0; animation: rise .7s ease forwards; animation-delay:.62s;
+  }
+
+  @keyframes rise{
+    from{ opacity:0; transform:translateY(14px);}
+    to{ opacity:1; transform:translateY(0);}
+  }
+
+  /* ---------- BOOK COVER ---------- */
+  .cover-stage{
+    display:flex; justify-content:center; align-items:center;
+    opacity:0; animation: coverIn .8s cubic-bezier(.2,.7,.3,1) forwards; animation-delay:.3s;
+  }
+  @keyframes coverIn{
+    from{ opacity:0; transform:translateY(24px) rotate(0deg);}
+    to{ opacity:1; transform:translateY(0) rotate(-4deg);}
+  }
+  .cover{
+    width:290px;
+    aspect-ratio:5/7.4;
+    background:linear-gradient(180deg, #2C0B12, #4A1420 40%, #2C0B12);
+    border:1px solid rgba(230,196,120,0.35);
+    border-radius:2px;
+    padding:26px 24px;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    box-shadow: 14px 22px 0px rgba(0,0,0,0.28);
+    transition:transform .3s ease;
+  }
+  .cover-stage:hover .cover{ transform:rotate(-1deg) translateY(-4px); }
+  .cover-top .eyebrow{ color:var(--gold-bright); }
+  .cover-title{
+    font-family:'Fraunces', serif;
+    font-size:32px;
+    line-height:1.06;
+    color:var(--parchment);
+    margin-top:10px;
+  }
+  .cover-icon{ margin:18px 0; }
+  .cover-bottom{
+    border-top:1px solid rgba(230,196,120,0.35);
+    padding-top:14px;
+    font-family:'Roboto Mono', monospace;
+    font-size:12px;
+    color:var(--gold-bright);
+    display:flex;
+    justify-content:space-between;
+  }
+
+  /* ---------- NAV ---------- */
+  .site-nav{
+    background:var(--parchment);
+    border-bottom:1px solid var(--line);
+    position:sticky; top:0; z-index:50;
+  }
+  .nav-inner{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:16px 32px; gap:16px; flex-wrap:wrap;
+  }
+  .nav-logo{
+    font-family:'Fraunces', serif; font-weight:600; font-size:16px;
+    text-decoration:none; color:var(--ink);
+  }
+  .nav-links{
+    display:flex; align-items:center; gap:26px; flex-wrap:wrap;
+    font-family:'Roboto Mono', monospace; font-size:12px;
+    text-transform:uppercase; letter-spacing:0.06em;
+  }
+  .nav-links a{ text-decoration:none; color:var(--ink); opacity:0.68; }
+  .nav-links a:hover{ opacity:1; }
+  .nav-links a.current{ opacity:1; border-bottom:1px solid var(--gold); padding-bottom:3px; }
+  .nav-buy{
+    background:var(--maroon); color:var(--parchment); border:none;
+    padding:9px 16px; border-radius:3px;
+    font-family:'Work Sans', sans-serif; font-weight:600; font-size:12px; cursor:pointer;
+  }
+  .nav-buy:hover{ background:var(--maroon-deep); }
+
+  /* ---------- AUTHOR PHOTO ---------- */
+  .author-photo{
+    width:140px; height:140px; flex-shrink:0;
+    border-radius:50%; overflow:hidden;
+    background:var(--maroon); position:relative;
+  }
+  .author-photo img{ width:100%; height:100%; object-fit:cover; display:block; }
+  .photo-placeholder-note{
+    display:none; position:absolute; inset:0;
+    align-items:center; justify-content:center; text-align:center;
+    font-family:'Roboto Mono', monospace; font-size:10px; line-height:1.5;
+    color:var(--parchment); padding:12px;
+  }
+  .author-photo.photo-missing img{ display:none; }
+  .author-photo.photo-missing .photo-placeholder-note{ display:flex; }
+  .text-link{
+    font-family:'Roboto Mono', monospace; font-size:12px;
+    text-decoration:none; color:var(--maroon); border-bottom:1px solid var(--gold);
+    display:inline-block; margin-top:6px;
+  }
+  .text-link:hover{ color:var(--maroon-deep); }
+
+  /* ---------- COMING SOON ---------- */
+  .upcoming-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:28px; }
+  .upcoming-card{ border:1px solid var(--line); background:#fff; }
+  .upcoming-cover{
+    background:linear-gradient(180deg, #5C5C58, #38352F);
+    height:180px; position:relative;
+    display:flex; align-items:flex-end; padding:20px;
+  }
+  .upcoming-title{
+    font-family:'Fraunces', serif; color:var(--parchment);
+    font-size:24px; line-height:1.08; opacity:0.92;
+  }
+  .upcoming-ribbon{
+    position:absolute; top:14px; right:14px;
+    background:var(--gold); color:var(--maroon-deep);
+    font-family:'Roboto Mono', monospace; font-size:10px;
+    text-transform:uppercase; letter-spacing:0.08em;
+    padding:5px 10px; border-radius:20px;
+  }
+  .upcoming-body{ padding:22px 22px 26px; }
+  .upcoming-name{ font-family:'Fraunces', serif; font-size:19px; margin-bottom:8px; }
+  .upcoming-body p{ font-size:14px; color:var(--ink); opacity:0.75; margin:0 0 6px; }
+
+  /* ---------- SECTION SHELL ---------- */
+  section{ padding:88px 0; }
+  .section-head{ margin-bottom:44px; }
+  .section-head h2{ font-size:34px; margin-top:10px; }
+  .rule{ height:1px; background:var(--line); border:none; margin:0 0 44px; }
+
+  /* ---------- CONTENTS / CHAPTERS ---------- */
+  .toc-list{ list-style:none; margin:0; padding:0; }
+  .toc-list li{
+    display:flex;
+    align-items:baseline;
+    gap:14px;
+    padding:18px 0;
+    border-bottom:1px solid var(--line);
+  }
+  .toc-num{ font-family:'Roboto Mono', monospace; color:var(--gold); font-size:13px; width:26px; flex-shrink:0;}
+  .toc-title{ font-family:'Fraunces', serif; font-size:19px; }
+  .toc-fill{ flex:1; border-bottom:1px dotted var(--line); transform:translateY(-4px); }
+  .toc-page{ font-family:'Roboto Mono', monospace; font-size:13px; color:var(--ink); opacity:0.55; }
+
+  /* ---------- AUTHOR ---------- */
+  .author-row{
+    display:grid;
+    grid-template-columns: 140px 1fr;
+    gap:36px;
+    align-items:start;
+  }
+  .author-mark{
+    width:140px; height:140px;
+    border-radius:50%;
+    background:var(--maroon);
+    color:var(--parchment);
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Fraunces', serif;
+    font-size:44px;
+  }
+  .author-row p{ max-width:62ch; }
+  .author-row .name{ font-family:'Fraunces', serif; font-size:22px; margin-bottom:6px;}
+  .author-row .role{ font-family:'Roboto Mono', monospace; font-size:12px; color:var(--gold); text-transform:uppercase; letter-spacing:0.1em; margin-bottom:16px;}
+
+  /* ---------- RECEIPTS / REVIEWS ---------- */
+  .receipts{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:26px;
+  }
+  .receipt{
+    background:#fff;
+    padding:26px 22px 22px;
+    position:relative;
+    box-shadow:0 1px 0 var(--line);
+    border:1px solid var(--line);
+  }
+  .receipt::after{
+    content:"";
+    position:absolute; left:0; right:0; bottom:-8px; height:16px;
+    background:
+      linear-gradient(135deg, transparent 50%, var(--parchment) 50%) 0 0/16px 16px repeat-x,
+      linear-gradient(-135deg, transparent 50%, var(--parchment) 50%) 0 0/16px 16px repeat-x;
+  }
+  .receipt .stars{ color:var(--gold); font-family:'Roboto Mono', monospace; font-size:13px; letter-spacing:2px;}
+  .receipt p{ font-family:'Fraunces', serif; font-style:italic; font-size:16px; margin:14px 0 18px; }
+  .receipt .who{ font-family:'Roboto Mono', monospace; font-size:12px; color:var(--ink); opacity:0.6; text-transform:uppercase; letter-spacing:0.06em;}
+
+  /* ---------- FINAL CTA ---------- */
+  .final-cta{
+    background:var(--maroon);
+    color:var(--parchment);
+    text-align:center;
+    padding:96px 32px;
+  }
+  .final-cta h2{ font-size:clamp(30px,4vw,46px); max-width:16ch; margin:0 auto 18px; }
+  .final-cta p{ color:rgba(243,233,210,0.75); max-width:48ch; margin:0 auto 34px; }
+  .pay-badges{
+    margin-top:38px;
+    display:flex; justify-content:center; gap:14px; flex-wrap:wrap;
+  }
+  .pay-badge{
+    font-family:'Roboto Mono', monospace;
+    font-size:12px;
+    border:1px solid rgba(230,196,120,0.4);
+    color:rgba(243,233,210,0.75);
+    padding:8px 14px;
+    border-radius:20px;
+  }
+
+  footer{
+    padding:36px 32px;
+    text-align:center;
+    font-family:'Roboto Mono', monospace;
+    font-size:12px;
+    color:rgba(36,21,18,0.5);
+  }
+  .footer-links{
+    display:flex; justify-content:center; gap:22px; flex-wrap:wrap;
+    margin-bottom:16px; text-transform:uppercase; letter-spacing:0.06em;
+  }
+  .footer-links a{ text-decoration:none; color:var(--ink); opacity:0.6; }
+  .footer-links a:hover{ opacity:1; }
+
+  /* ---------- MODAL ---------- */
+  .modal-overlay{
+    position:fixed; inset:0;
+    background:rgba(36,21,18,0.55);
+    display:none;
+    align-items:center; justify-content:center;
+    z-index:100;
+    padding:20px;
+  }
+  .modal-overlay.open{ display:flex; }
+  .modal{
+    background:var(--parchment);
+    width:100%; max-width:460px;
+    max-height:90vh;
+    overflow-y:auto;
+    border-radius:4px;
+    box-shadow:0 24px 60px rgba(0,0,0,0.35);
+    animation: modalIn .25s ease;
+  }
+  @keyframes modalIn{ from{ opacity:0; transform:translateY(12px) scale(0.98);} to{opacity:1; transform:translateY(0) scale(1);} }
+  .modal-head{
+    background:var(--maroon);
+    color:var(--parchment);
+    padding:22px 26px;
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+  }
+  .modal-head h3{ font-size:18px; }
+  .modal-close{
+    background:none; border:none; color:var(--parchment); opacity:0.7;
+    font-size:20px; cursor:pointer; line-height:1; padding:0;
+  }
+  .modal-close:hover{ opacity:1; }
+  .receipt-summary{
+    margin:22px 26px 0;
+    border:1px dashed var(--line);
+    padding:16px 18px;
+    font-family:'Roboto Mono', monospace;
+    font-size:13px;
+  }
+  .receipt-summary .row{ display:flex; justify-content:space-between; padding:4px 0;}
+  .receipt-summary .row.total{ border-top:1px solid var(--line); margin-top:8px; padding-top:10px; font-weight:500;}
+  .pay-tabs{
+    display:flex;
+    margin:22px 26px 0;
+    border:1px solid var(--line);
+    border-radius:4px;
+    overflow:hidden;
+  }
+  .pay-tab{
+    flex:1;
+    text-align:center;
+    padding:12px 6px;
+    font-family:'Roboto Mono', monospace;
+    font-size:12px;
+    text-transform:uppercase;
+    letter-spacing:0.04em;
+    background:#fff;
+    cursor:pointer;
+    border:none;
+    border-right:1px solid var(--line);
+    color:var(--ink);
+    opacity:0.6;
+  }
+  .pay-tab:last-child{ border-right:none; }
+  .pay-tab.active{ background:var(--maroon); color:var(--parchment); opacity:1; }
+  .pay-panel{ display:none; padding:22px 26px 26px; }
+  .pay-panel.active{ display:block; }
+  .field label{
+    display:block;
+    font-family:'Roboto Mono', monospace;
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:0.08em;
+    opacity:0.65;
+    margin-bottom:6px;
+  }
+  .field input{
+    width:100%;
+    padding:12px 14px;
+    border:1px solid var(--line);
+    border-radius:3px;
+    background:#fff;
+    font-family:'Work Sans', sans-serif;
+    font-size:15px;
+    margin-bottom:16px;
+  }
+  .field input:focus{ outline:2px solid var(--gold); outline-offset:1px; }
+  .field-row{ display:flex; gap:12px; }
+  .field-row .field{ flex:1; }
+  .momo-note{
+    font-size:13px;
+    color:var(--ink);
+    opacity:0.7;
+    margin-bottom:16px;
+    line-height:1.5;
+  }
+  .provider-chip{
+    display:inline-flex; align-items:center; gap:8px;
+    font-family:'Roboto Mono', monospace; font-size:12px;
+    padding:6px 12px; border-radius:20px; margin-bottom:16px;
+  }
+  .chip-mtn{ background:var(--mtn-yellow); color:#241512; }
+  .chip-airtel{ background:var(--airtel-red); color:#fff; }
+  .btn-pay{
+    width:100%;
+    background:var(--maroon);
+    color:var(--parchment);
+    border:none;
+    padding:15px;
+    font-family:'Work Sans', sans-serif;
+    font-weight:600;
+    font-size:15px;
+    border-radius:3px;
+    cursor:pointer;
+  }
+  .btn-pay:hover{ background:var(--maroon-deep); }
+  .btn-pay:disabled{ opacity:0.6; cursor:default; }
+
+  .pay-status{ text-align:center; padding:10px 0 0; display:none; }
+  .pay-status.active{ display:block; }
+  .spinner{
+    width:30px; height:30px;
+    border:3px solid var(--line);
+    border-top-color:var(--gold);
+    border-radius:50%;
+    margin:0 auto 14px;
+    animation:spin 0.8s linear infinite;
+  }
+  @keyframes spin{ to{ transform:rotate(360deg);} }
+  .pay-success .stamp{
+    width:66px; height:66px;
+    border:2px solid var(--gold);
+    border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    margin:0 auto 14px;
+    font-family:'Fraunces', serif;
+    font-size:30px;
+    color:var(--gold);
+  }
+  .order-no{ font-family:'Roboto Mono', monospace; font-size:12px; opacity:0.6; margin-top:6px;}
+
+  @media (max-width: 860px){
+    .hero-grid{ grid-template-columns:1fr; padding:64px 24px 52px; text-align:left; }
+    .cover-stage{ order:-1; }
+    .cover{ width:230px; }
+    .receipts{ grid-template-columns:1fr; }
+    .upcoming-grid{ grid-template-columns:1fr; }
+    .author-row{ grid-template-columns:1fr; }
+    .author-photo{ width:96px; height:96px; }
+    .nav-inner{ padding:14px 24px; }
+    .nav-links{ gap:16px; font-size:11px; }
+    .wrap{ padding:0 24px; }
+    section{ padding:64px 0; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation-duration:0.01ms !important; animation-iteration-count:1 !important; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <div class="wrap nav-inner">
+    <a href="index.html" class="nav-logo">The Boda Economy</a>
+    <div class="nav-links">
+      <a href="index.html#contents">Contents</a>
+      <a href="index.html#coming-soon">Coming soon</a>
+      <a href="about.html">About the author</a>
+      <button class="nav-buy" onclick="openModal()">Buy the book</button>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="hero-grid wrap">
+    <div class="hero-copy">
+      <div class="eyebrow">A field report from Kampala's boda stages</div>
+      <h1>The Boda&nbsp;Economy</h1>
+      <p class="subtitle">How two wheels move a nation's money</p>
+      <p class="desc">Every day, over two hundred thousand motorcycle taxis carry Uganda's cash, credit, and gossip through streets no census ever fully counts. Immaculate N. Aber spent three years riding pillion to map the ledgers, loans, and mobile money flows that keep the boda economy running.</p>
+      <div class="hero-buy-row">
+        <button class="btn-buy" onclick="openModal()">Buy the book — UGX 45,000</button>
+      </div>
+      <div class="hero-meta">
+        <span>PAPERBACK + EBOOK</span>
+        <span>312 PAGES</span>
+        <span>SHIPS IN KAMPALA, 2–4 DAYS</span>
+      </div>
+    </div>
+    <div class="cover-stage">
+  <img src="images/FRONT-01.jpg" alt="The Boda Economy Book Cover" class="cover-image">
+</div>
+        <div class="cover-top">
+          <div class="eyebrow">Non-fiction</div>
+          <div class="cover-title">The Boda<br>Economy</div>
+        </div>
+        
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section class="wrap" id="contents">
+  <div class="section-head">
+    <div class="eyebrow">Table of contents</div>
+    <h2>What's inside</h2>
+  </div>
+  <hr class="rule">
+  <ol class="toc-list">
+    <li><span class="toc-num">01</span><span class="toc-title">The stage: how a taxi rank becomes a bank</span><span class="toc-fill"></span><span class="toc-page">p. 9</span></li>
+    <li><span class="toc-num">02</span><span class="toc-title">Fuel on credit, paid back by Friday</span><span class="toc-fill"></span><span class="toc-page">p. 41</span></li>
+    <li><span class="toc-num">03</span><span class="toc-title">The rise of mobile money as a second currency</span><span class="toc-fill"></span><span class="toc-page">p. 78</span></li>
+    <li><span class="toc-num">04</span><span class="toc-title">Chairmen, savings circles, and informal insurance</span><span class="toc-fill"></span><span class="toc-page">p. 122</span></li>
+    <li><span class="toc-num">05</span><span class="toc-title">What happens when an app tries to formalize a hustle</span><span class="toc-fill"></span><span class="toc-page">p. 168</span></li>
+    <li><span class="toc-num">06</span><span class="toc-title">A ledger for an economy no one wrote down</span><span class="toc-fill"></span><span class="toc-page">p. 231</span></li>
+  </ol>
+</section>
+
+<section class="wrap" id="coming-soon">
+  <div class="section-head">
+    <div class="eyebrow">From the same desk</div>
+    <h2>Coming soon</h2>
+  </div>
+  <hr class="rule">
+  <div class="upcoming-grid">
+    <div class="upcoming-card">
+      <div class="upcoming-cover">
+        <span class="upcoming-ribbon">Coming soon</span>
+        <div class="upcoming-title">The Matatu<br>Ledger</div>
+      </div>
+      <div class="upcoming-body">
+        <div class="upcoming-name">The Matatu Ledger</div>
+        <p>Inside the shared-taxi routes that move Kampala to work every morning, and the cash economy that keeps them running. Expected late 2026.</p>
+        <a class="text-link" href="mailto:hello@example.com?subject=Notify%20me%20about%20The%20Matatu%20Ledger">Get notified when it's out →</a>
+      </div>
+    </div>
+    <div class="upcoming-card">
+      <div class="upcoming-cover">
+        <span class="upcoming-ribbon">Coming soon</span>
+        <div class="upcoming-title">Boda<br>Queens</div>
+      </div>
+      <div class="upcoming-body">
+        <div class="upcoming-name">Boda Queens</div>
+        <p>The women riding and running boda stages in a trade everyone assumed was closed to them. Expected 2027.</p>
+        <a class="text-link" href="mailto:hello@example.com?subject=Notify%20me%20about%20Boda%20Queens">Get notified when it's out →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="background:var(--parchment-dim);">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">The author</div>
+      <h2>About Immaculate</h2>
+    </div>
+    <hr class="rule">
+    <div class="author-row">
+      <div class="author-photo">
+        <img src="images/author-photo.jpg" alt="Portrait of Immaculate N. Aber" onerror="this.parentElement.classList.add('photo-missing')">
+        <div class="photo-placeholder-note">Add your photo at<br>images/author-photo.jpg</div>
+      </div>
+      <div>
+        <div class="name">Immaculate N. Aber</div>
+        <div class="role">Writer &amp; independent economist</div>
+        <p>Immaculate spent three years on the back of boda-bodas across Kampala, Gulu, and Mbale, recording how riders and stage chairmen actually manage money — long before any bank or app noticed. She writes for a general reader, with the eye of someone who has counted the coins herself.</p>
+        <p>This is her first book. It is self-published, and every copy sold goes straight to funding the next one.</p>
+        <a class="text-link" href="about.html">Read her full story →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="wrap">
+  <div class="section-head">
+    <div class="eyebrow">Early readers</div>
+    <h2>What people are saying</h2>
+  </div>
+  <hr class="rule">
+  <div class="receipts">
+    <div class="receipt">
+      <div class="stars">★★★★★</div>
+      <p>"I've ridden bodas my whole life and never thought about the money moving underneath it. This book explains my own city back to me."</p>
+      <div class="who">D. Okello, Kampala</div>
+    </div>
+    <div class="receipt">
+      <div class="stars">★★★★★</div>
+      <p>"Sharp, well reported, and never condescending. A rare economics book that trusts the reader and the subject in equal measure."</p>
+      <div class="who">S. Nabirye, Jinja</div>
+    </div>
+    <div class="receipt">
+      <div class="stars">★★★★☆</div>
+      <p>"Reads like the best kind of long-form journalism. I finished it in a weekend and immediately lent it to my brother."</p>
+      <div class="who">R. Mugisha, Mbarara</div>
+    </div>
+  </div>
+</section>
+
+<section class="final-cta">
+  <div class="wrap" style="padding:0;">
+    <div class="eyebrow" style="color:var(--gold-bright);">One copy, one price</div>
+    <h2>Get your copy of The Boda Economy</h2>
+    <p>UGX 45,000 for the paperback and ebook together. Pay by MTN Mobile Money, Airtel Money, or card — checkout takes under a minute.</p>
+    <button class="btn-buy" onclick="openModal()">Buy the book — UGX 45,000</button>
+    <div class="pay-badges">
+      <span class="pay-badge">MTN Mobile Money</span>
+      <span class="pay-badge">Airtel Money</span>
+      <span class="pay-badge">Visa / Mastercard</span>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-links">
+    <a href="index.html#contents">Contents</a>
+    <a href="index.html#coming-soon">Coming soon</a>
+    <a href="about.html">About the author</a>
+    <a href="mailto:hello@example.com">Contact</a>
+  </div>
+  © 2026 Immaculate N. Aber. Self-published. Kampala, Uganda.
+</footer>
+
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <div class="modal-head">
+      <div>
+        <div class="eyebrow" style="color:var(--gold-bright);">Checkout</div>
+        <h3>The Boda Economy</h3>
+      </div>
+      <button class="modal-close" onclick="closeModal()" aria-label="Close">✕</button>
+    </div>
+
+    <div class="receipt-summary">
+      <div class="row"><span>The Boda Economy — paperback + ebook</span><span>UGX 45,000</span></div>
+      <div class="row"><span>Delivery</span><span>Free</span></div>
+      <div class="row total"><span>Total</span><span>UGX 45,000</span></div>
+    </div>
+
+    <div class="pay-panel active" id="panel-checkout">
+      <p class="momo-note">Enter your details, then you'll choose MTN Mobile Money, Airtel Money, or card on the next screen to complete payment.</p>
+      <div class="field">
+        <label for="buyer-name">Full name</label>
+        <input type="text" id="buyer-name" placeholder="Jane Nakato">
+      </div>
+      <div class="field">
+        <label for="buyer-phone">Phone number</label>
+        <input type="tel" id="buyer-phone" placeholder="077 123 4567">
+      </div>
+      <div class="field">
+        <label for="buyer-email">Email (for your receipt)</label>
+        <input type="email" id="buyer-email" placeholder="jane@example.com">
+      </div>
+      <button class="btn-pay" id="continueBtn" onclick="startCheckout()">Continue to payment</button>
+    </div>
+
+    <div class="pay-status" id="payStatus"></div>
+  </div>
+</div>
+
+<script>
+  function openModal(){
+    document.getElementById('modalOverlay').classList.add('open');
+    resetStatus();
+  }
+  function closeModal(){
+    document.getElementById('modalOverlay').classList.remove('open');
+  }
+  document.getElementById('modalOverlay').addEventListener('click', function(e){
+    if(e.target === this) closeModal();
+  });
+
+  function resetStatus(){
+    var s = document.getElementById('payStatus');
+    s.className = 'pay-status';
+    s.innerHTML = '';
+    document.getElementById('panel-checkout').style.opacity = '1';
+    document.getElementById('continueBtn').disabled = false;
+  }
+
+  async function startCheckout(){
+    var name = document.getElementById('buyer-name').value.trim();
+    var phone = document.getElementById('buyer-phone').value.trim();
+    var email = document.getElementById('buyer-email').value.trim();
+    var status = document.getElementById('payStatus');
+
+    if (!phone && !email) {
+      status.className = 'pay-status active';
+      status.innerHTML = '<div class="mono" style="font-size:13px;">Enter a phone number or email to continue.</div>';
+      return;
+    }
+
+    document.getElementById('panel-checkout').style.opacity = '0.4';
+    document.getElementById('continueBtn').disabled = true;
+    status.className = 'pay-status active';
+    status.innerHTML = '<div class="spinner"></div><div class="mono" style="font-size:13px;">Setting up your payment&hellip;</div>';
+
+    try {
+      var res = await fetch('/api/create-order', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: name, phone: phone, email: email })
+      });
+      var data = await res.json();
+
+      if (!res.ok || data.error) {
+        throw new Error(data.error || 'Could not start checkout.');
+      }
+
+      window.location.href = data.redirect_url;
+    } catch (err) {
+      status.innerHTML = '<div class="mono" style="font-size:13px; color:#A32D2D;">' + err.message + '</div>';
+      resetStatus();
+    }
+  }
+</script>
+
+</body>
+</html>
