@@ -440,7 +440,7 @@
     <div>
       <div class="eyebrow">Get your copy</div>
       <h2 style="font-size:34px; margin-bottom:16px;">Read it tonight. Start applying it tomorrow at 4am.</h2>
-      <p style="color:var(--slate); max-width:44ch;">Pay with the mobile money wallet you already use. No card, no bank visit. Once the payment is confirmed on your phone, your download link unlocks immediately on this page.</p>
+      <p style="color:var(--slate); max-width:44ch;">Pay with the mobile money wallet you already use. No card, no bank visit. As soon as your payment is confirmed, you'll land on your download page automatically.</p>
     </div>
     <div class="buy-card">
       <div class="buy-card-head">
@@ -462,7 +462,7 @@
         <div class="pay-pill airtel">Airtel Money</div>
       </div>
       <button class="btn btn-primary full-btn" onclick="goToPesapal()">Pay UGX 20,000 &amp; Download</button>
-      <div class="note">You'll be taken to PesaPal's secure payment page to pay with MTN or Airtel. Once you're done, come back to this site and visit the <a href="thank-you.html" style="color:var(--gold);">download page</a> to get your PDF.</div>
+      <div class="note">You'll be taken to PesaPal's secure payment page to pay with MTN or Airtel. Once your payment is complete, you'll be redirected back here automatically to download your PDF.</div>
     </div>
   </div>
 </section>
@@ -554,6 +554,15 @@
    Payment Link → amount 20,000 UGX → Save. Paste the resulting
    URL below (it looks like https://pay.pesapal.com/... or
    https://store.pesapal.com/...).
+
+   IMPORTANT — for buyers to land on thank-you.html automatically
+   after paying:
+   In your PesaPal merchant dashboard, open the settings for this
+   payment link and set the "Redirect URL" / "Callback URL" /
+   "Success URL" field to the LIVE address of thank-you.html, e.g.:
+     https://yourdomain.com/thank-you.html
+   PesaPal then sends the buyer there itself once payment succeeds
+   — a static page like this one can't detect payment on its own.
    ============================================================ */
 const PESAPAL_PAYMENT_LINK = "https://store.pesapal.com/alpha";
 
