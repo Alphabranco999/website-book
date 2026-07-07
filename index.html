@@ -538,7 +538,7 @@
         <div class="pay-pill airtel">Airtel Money</div>
       </div>
       <button class="btn btn-primary full-btn" onclick="goToPesapal()">Pay UGX 20,000 &amp; Download</button>
-      <div class="note">You'll be taken to PesaPal's secure payment page to pay with MTN or Airtel. Once your payment is complete, you'll be redirected back here automatically to download your PDF.</div>
+      <div class="note">PesaPal opens in a new tab so you can pay with MTN or Airtel. Once you're done, just switch back to this tab — you'll be taken to your download automatically.</div>
     </div>
   </div>
 </section>
@@ -626,28 +626,55 @@
 <script>
 /* ============================================================
    PASTE YOUR PESAPAL PAYMENT LINK HERE
-   Create it in your PesaPal dashboard: Create Invoice → Create
-   Payment Link → amount 20,000 UGX → Save. Paste the resulting
-   URL below (it looks like https://pay.pesapal.com/... or
-   https://store.pesapal.com/...).
+   ------------------------------------------------------------
+   No backend needed — this is a client-side-only workaround.
 
-   IMPORTANT — for buyers to land on thank-you.html automatically
-   after paying:
-   In your PesaPal merchant dashboard, open the settings for this
-   payment link and set the "Redirect URL" / "Callback URL" /
-   "Success URL" field to the LIVE address of thank-you.html, e.g.:
-     https://yourdomain.com/thank-you.html
-   PesaPal then sends the buyer there itself once payment succeeds
-   — a static page like this one can't detect payment on its own.
+   HOW IT WORKS: clicking Pay opens PesaPal in a NEW tab, and this
+   tab starts listening for you to come back (which normally
+   happens right after finishing a payment on your phone/PC). When
+   you return, it sends you to thank-you.html automatically.
+
+   IMPORTANT — READ THIS: this is NOT real payment confirmation.
+   There is no way for a plain static page to verify with PesaPal
+   that money actually arrived — only a backend calling PesaPal's
+   API can do that (see server-example.js from earlier if you ever
+   want that). This version just detects "buyer switched back to
+   this tab" and assumes they paid. If someone opens the payment
+   tab and closes it without paying, then clicks back into this
+   tab, they'll still land on thank-you.html. For a small catalog
+   like this it's a reasonable trade-off, but know the limitation.
    ============================================================ */
 const PESAPAL_PAYMENT_LINK = "https://store.pesapal.com/alpha";
+const THANK_YOU_PAGE = "thank-you.html";
+const MIN_SECONDS_AWAY = 8; // ignore quick accidental tab switches
+
+let pesapalOpenedAt = null;
+let returnListenerAdded = false;
 
 function goToPesapal(){
   if(PESAPAL_PAYMENT_LINK.includes("PASTE_YOUR")){
     alert("Add your PesaPal payment link first — see PESAPAL_PAYMENT_LINK near the top of the <script> tag.");
     return;
   }
-  window.location.href = PESAPAL_PAYMENT_LINK;
+
+  pesapalOpenedAt = Date.now();
+  window.open(PESAPAL_PAYMENT_LINK, '_blank', 'noopener');
+
+  if(!returnListenerAdded){
+    document.addEventListener('visibilitychange', handlePossibleReturn);
+    window.addEventListener('focus', handlePossibleReturn);
+    returnListenerAdded = true;
+  }
+}
+
+function handlePossibleReturn(){
+  if(document.hidden || pesapalOpenedAt === null) return;
+
+  const secondsAway = (Date.now() - pesapalOpenedAt) / 1000;
+  if(secondsAway < MIN_SECONDS_AWAY) return; // too quick to be a real payment
+
+  pesapalOpenedAt = null; // only redirect once per click
+  window.location.href = THANK_YOU_PAGE;
 }
 
 /* Mobile nav toggle */
