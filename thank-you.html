@@ -41,11 +41,30 @@
   .btn:hover{ background:#f2b752; }
   .note{ margin-top:22px; font-size:12px; color:var(--slate); }
   .note a{ color:var(--gold); }
+  .cross{
+    width:64px; height:64px; margin:0 auto 20px; border-radius:50%;
+    background:rgba(201,80,42,0.15); border:1px solid var(--ember);
+    display:flex; align-items:center; justify-content:center;
+  }
+  .cross svg{ width:28px; height:28px; }
+  .spinner{
+    width:40px; height:40px; margin:0 auto 22px; border-radius:50%;
+    border:3px solid var(--line); border-top-color:var(--gold);
+    animation:spin 0.8s linear infinite;
+  }
+  @keyframes spin{ to{ transform:rotate(360deg); } }
 </style>
 </head>
 <body>
 
-<div class="card">
+<div class="card" id="stateChecking">
+  <div class="spinner"></div>
+  <div class="eyebrow">Checking your payment</div>
+  <h1>One moment…</h1>
+  <p>We're confirming your payment with PesaPal directly. This takes a couple of seconds — please don't close this page.</p>
+</div>
+
+<div class="card" id="statePaid" style="display:none;">
   <div class="check">
     <svg viewBox="0 0 24 24" fill="none" stroke="#3FA089" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
       <polyline points="20 6 9 17 4 12"></polyline>
@@ -53,7 +72,7 @@
   </div>
   <div class="eyebrow">Payment confirmed</div>
   <h1>You're in. Thank you.</h1>
-  <p>Your payment for <b>Own The Buyer</b> went through. Your PDF download is ready below — save it somewhere you'll find it again.</p>
+  <p>Your payment for <b>Own The Buyer</b> was verified directly with PesaPal. Your PDF download is ready below — save it somewhere you'll find it again.</p>
 
   <a class="btn" href="own-the-buyer.pdf" download>Download Your PDF</a>
 
@@ -63,25 +82,77 @@
   </div>
 </div>
 
+<div class="card" id="stateFailed" style="display:none;">
+  <div class="cross">
+    <svg viewBox="0 0 24 24" fill="none" stroke="#C9502A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="18" y1="6" x2="6" y2="18"></line>
+      <line x1="6" y1="6" x2="18" y2="18"></line>
+    </svg>
+  </div>
+  <div class="eyebrow" style="color:var(--ember);">Payment not confirmed</div>
+  <h1 id="failedTitle">We couldn't verify this payment</h1>
+  <p id="failedMsg">PesaPal hasn't confirmed a completed payment for this link. If you did pay and think this is a mistake, contact the authors below with your PesaPal confirmation code.</p>
+
+  <a class="btn" href="index.html#buy">Back to Payment</a>
+
+  <div class="note">
+    Need help? 0758 133 343 · 0753 553 350
+  </div>
+</div>
+
+<script>
+(async function verify(){
+  const params = new URLSearchParams(window.location.search);
+  // PesaPal appends this to your Redirect URL automatically after checkout
+  const orderTrackingId = params.get('OrderTrackingId') || params.get('orderTrackingId');
+
+  const show = (id) => {
+    ['stateChecking','statePaid','stateFailed'].forEach(s=>{
+      document.getElementById(s).style.display = (s===id) ? 'block' : 'none';
+    });
+  };
+
+  if(!orderTrackingId){
+    document.getElementById('failedTitle').textContent = 'No payment reference found';
+    document.getElementById('failedMsg').textContent = "This page needs to be opened via PesaPal's redirect after a real payment — it looks like it was opened directly.";
+    show('stateFailed');
+    return;
+  }
+
+  try{
+    const res = await fetch('/.netlify/functions/verify-payment?orderTrackingId=' + encodeURIComponent(orderTrackingId));
+    const data = await res.json();
+
+    if(res.ok && data.paid){
+      show('statePaid');
+    }else{
+      document.getElementById('failedMsg').textContent =
+        'PesaPal reports this payment as "' + (data.status || 'not completed') + '". If you believe this is wrong, contact the authors with your PesaPal confirmation code.';
+      show('stateFailed');
+    }
+  }catch(err){
+    document.getElementById('failedMsg').textContent = 'We could not reach the verification service. Please try again in a minute, or contact the authors.';
+    show('stateFailed');
+  }
+})();
+</script>
+
 <!-- ============================================================
      SETUP NOTE FOR YOU (not shown to buyers):
      1. Upload your real PDF to this same folder and name it
-        own-the-buyer.pdf (or change the href above to match).
-     2. This page must ONLY be reachable the way PesaPal reaches
-        it — via the "Redirect URL" you set in your PesaPal
-        dashboard for the UGX 20,000 payment link, pointed at:
+        own-the-buyer.pdf (or change the href in #statePaid above).
+     2. In your PesaPal dashboard, set the Redirect URL for your
+        payment link to this page's live address, e.g.:
           https://yourdomain.com/thank-you.html
-        PesaPal only sends buyers here after it has confirmed
-        their payment actually succeeded. People who cancel or
-        fail payment stay on PesaPal's own page instead.
-     3. Because this is a static page, anyone who somehow guesses
-        or is given this exact URL could technically open it
-        without paying — there is no server here to check. That's
-        the trade-off of a no-backend setup. If that risk matters
-        to you (e.g. this URL gets shared publicly), the fix is a
-        small serverless function that verifies the OrderTrackingId
-        against PesaPal's API before releasing the PDF link — just
-        say the word and I can build that version too.
+        PesaPal appends ?OrderTrackingId=... to that URL itself —
+        you don't need to do anything extra for that part.
+     3. This page now calls netlify/functions/verify-payment.js,
+        which asks PesaPal's API directly whether that OrderTrackingId
+        was really paid, using your Consumer Key/Secret (set as
+        environment variables on Netlify, never in this file).
+        Only if PesaPal confirms COMPLETED does the download show.
+        Directly guessing/opening this URL without paying now fails,
+        because there's no real OrderTrackingId to verify.
      ============================================================ -->
 
 </body>
