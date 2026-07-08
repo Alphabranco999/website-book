@@ -502,8 +502,12 @@
         <label for="agreeTerms">I've read and agree to the <a href="terms.html" target="_blank" rel="noopener">Terms &amp; Conditions</a>, including the no-refund policy on digital downloads.</label>
       </div>
 
+      <input type="email" id="buyerEmail" placeholder="Your email (for PesaPal receipt)" required
+        style="width:100%; padding:12px 14px; margin-bottom:16px; background:var(--ink); border:1px solid var(--line); color:var(--bone); border-radius:var(--radius); font-family:'Source Sans 3'; font-size:15px;">
+
       <button class="btn btn-primary full-btn" id="payBtn" onclick="goToPesapal()" disabled>Pay UGX 20,000 &amp; Download</button>
 
+      <div class="note" id="payError" style="display:none; color:#e08787;"></div>
       <div class="note">You'll be taken to PesaPal's secure payment page to pay with MTN or Airtel. If payment succeeds, PesaPal brings you straight back here to your download. If you cancel, fail, or close the page without paying, you'll never reach the download page.</div>
     </div>
   </div>
@@ -594,40 +598,54 @@
 
 <script>
 /* ============================================================
-   PASTE YOUR PESAPAL PAYMENT LINK HERE
-   Create it in your PesaPal dashboard: Create Invoice → Create
-   Payment Link → amount 20,000 UGX → Save. Paste the resulting
-   URL below (it looks like https://pay.pesapal.com/... or
-   https://store.pesapal.com/...).
-
-   THIS IS THE PART THAT KEEPS NON-PAYERS OFF THE THANK-YOU PAGE:
-   In your PesaPal merchant dashboard, open the settings for THIS
-   payment link and find the field called "Redirect URL" /
-   "Callback URL" / "Success URL". Set it to the LIVE address of
-   thank-you.html once this site is hosted, e.g.:
-     https://yourdomain.com/thank-you.html
-
-   PesaPal only sends the buyer to that URL AFTER it has confirmed
-   the payment actually went through. If someone cancels, closes
-   the tab, or the payment fails, PesaPal keeps them on its own
-   page (or its own "payment failed" screen) — they are never
-   forwarded to thank-you.html. A plain static site like this one
-   cannot detect payment status on its own; PesaPal's redirect
-   setting is what enforces the rule.
+   No more static payment link needed here — the Pay button now
+   calls create-order.js, which creates a real PesaPal order with
+   a callback_url pointing to thank-you.html. That's what makes
+   PesaPal redirect buyers back automatically after real payment.
+   See SETUP.md for the environment variables you must set on
+   Netlify before this works.
    ============================================================ */
-const PESAPAL_PAYMENT_LINK = "https://store.pesapal.com/alpha";
 
 function onAgreeChange(){
   document.getElementById('payBtn').disabled = !document.getElementById('agreeTerms').checked;
 }
 
-function goToPesapal(){
+async function goToPesapal(){
   if(!document.getElementById('agreeTerms').checked) return;
-  if(PESAPAL_PAYMENT_LINK.includes("PASTE_YOUR")){
-    alert("Add your PesaPal payment link first — see PESAPAL_PAYMENT_LINK near the top of the <script> tag.");
+
+  const email = document.getElementById('buyerEmail').value.trim();
+  const errBox = document.getElementById('payError');
+  errBox.style.display = 'none';
+
+  if(!email || !email.includes('@')){
+    errBox.textContent = 'Please enter a valid email address first.';
+    errBox.style.display = 'block';
     return;
   }
-  window.location.href = PESAPAL_PAYMENT_LINK;
+
+  const btn = document.getElementById('payBtn');
+  btn.disabled = true;
+  btn.textContent = 'Setting up payment…';
+
+  try{
+    const res = await fetch('/.netlify/functions/create-order', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email })
+    });
+    const data = await res.json();
+
+    if(!res.ok || !data.redirect_url){
+      throw new Error(data.error || 'Could not start payment. Please try again.');
+    }
+
+    window.location.href = data.redirect_url;
+  }catch(err){
+    errBox.textContent = err.message || 'Something went wrong. Please try again.';
+    errBox.style.display = 'block';
+    btn.disabled = false;
+    btn.textContent = 'Pay UGX 20,000 & Download';
+  }
 }
 
 /* Mobile nav toggle */
