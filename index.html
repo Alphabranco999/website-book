@@ -295,7 +295,7 @@
   .authors{ display:grid; grid-template-columns:1fr 1fr; gap:40px; margin-top:48px; }
   .author-card{ border:1px solid var(--line); padding:32px; }
   .avatar{
-    width:160px; height:200px; border-radius:50%; background:var(--steel-2); border:2px solid rgba(232,169,58,0.35);
+    width:160px; height:300px; border-radius:50%; background:var(--steel-2); border:2px solid rgba(232,169,58,0.35);
     display:flex; align-items:center; justify-content:center; font-family:'Oswald'; font-size:28px; color:var(--gold);
     margin-bottom:22px; overflow:hidden; box-shadow: 0 8px 24px -8px rgba(0,0,0,0.6);
   }
@@ -320,9 +320,9 @@
   .footer-grid{ display:flex; justify-content:space-between; flex-wrap:wrap; gap:24px; font-size:13px; color:var(--slate); }
   .footer-grid b{ color:var(--bone); }
 
-  /* ============================================================
+  /* 
      MOBILE / TABLET — full visual pass, not just a grid collapse
-     ============================================================ */
+      */
   @media (max-width: 860px){
     .hero-grid, .buy-grid, .authors{ grid-template-columns:1fr; }
     .chapters, .soon-grid{ grid-template-columns:1fr; }
@@ -624,26 +624,7 @@
 </footer>
 
 <script>
-/* ============================================================
-   PASTE YOUR PESAPAL PAYMENT LINK HERE
-   ------------------------------------------------------------
-   No backend needed — this is a client-side-only workaround.
-
-   HOW IT WORKS: clicking Pay opens PesaPal in a NEW tab, and this
-   tab starts listening for you to come back (which normally
-   happens right after finishing a payment on your phone/PC). When
-   you return, it sends you to thank-you.html automatically.
-
-   IMPORTANT — READ THIS: this is NOT real payment confirmation.
-   There is no way for a plain static page to verify with PesaPal
-   that money actually arrived — only a backend calling PesaPal's
-   API can do that (see server-example.js from earlier if you ever
-   want that). This version just detects "buyer switched back to
-   this tab" and assumes they paid. If someone opens the payment
-   tab and closes it without paying, then clicks back into this
-   tab, they'll still land on thank-you.html. For a small catalog
-   like this it's a reasonable trade-off, but know the limitation.
-   ============================================================ */
+ 
 const PESAPAL_PAYMENT_LINK = "https://store.pesapal.com/alpha";
 const THANK_YOU_PAGE = "thank-you.html";
 const MIN_SECONDS_AWAY = 8; // ignore quick accidental tab switches
@@ -671,13 +652,13 @@ function handlePossibleReturn(){
   if(document.hidden || pesapalOpenedAt === null) return;
 
   const secondsAway = (Date.now() - pesapalOpenedAt) / 1000;
-  if(secondsAway < MIN_SECONDS_AWAY) return; // too quick to be a real payment
+  if(secondsAway < MIN_SECONDS_AWAY) return; 
 
-  pesapalOpenedAt = null; // only redirect once per click
+  pesapalOpenedAt = null;
   window.location.href = THANK_YOU_PAGE;
 }
 
-/* Mobile nav toggle */
+
 function toggleMobileNav(){
   const panel = document.getElementById('mobilePanel');
   const burger = document.getElementById('navBurger');
