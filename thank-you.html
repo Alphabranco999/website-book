@@ -3,164 +3,165 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Thank You — Own The Buyer</title>
+<title>Confirming Payment — Own The Buyer</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Source+Sans+3:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap');
-
   :root{
-    --ink:#101210;
-    --steel:#1B2733;
-    --gold:#E8A93A;
-    --ember:#C9502A;
-    --bone:#F1ECE1;
-    --slate:#9BA6AF;
-    --teal:#3FA089;
-    --line: rgba(241,236,225,0.12);
-    --radius: 3px;
+    --ink:#101210; --steel:#1B2733; --gold:#E8A93A; --ember:#C9502A;
+    --bone:#F1ECE1; --slate:#9BA6AF; --teal:#3FA089; --line: rgba(241,236,225,0.12); --radius:3px;
   }
   *{box-sizing:border-box;}
-  html, body{ max-width:100%; overflow-x:hidden; }
   body{
-    margin:0;
-    min-height:100vh;
-    background:var(--ink);
-    color:var(--bone);
-    font-family:'Source Sans 3', sans-serif;
-    line-height:1.6;
-    -webkit-font-smoothing:antialiased;
-    display:flex;
-    flex-direction:column;
-  }
-  h1,h2,h3{
-    font-family:'Oswald', sans-serif;
-    text-transform:uppercase;
-    letter-spacing:0.02em;
-    margin:0;
-  }
-  .mono{ font-family:'JetBrains Mono', monospace; }
-  a{ color:inherit; }
-  .wrap{ max-width:640px; margin:0 auto; padding:0 24px; width:100%; }
-
-  main{
-    flex:1;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    padding:56px 0;
+    margin:0; min-height:100vh; background:var(--ink); color:var(--bone);
+    font-family:'Source Sans 3', sans-serif; line-height:1.6; -webkit-font-smoothing:antialiased;
+    display:flex; align-items:center; justify-content:center; padding:24px;
     background:
-      radial-gradient(ellipse 700px 450px at 85% -10%, rgba(232,169,58,0.14), transparent 60%),
-      radial-gradient(ellipse 600px 400px at 10% 110%, rgba(201,80,42,0.12), transparent 60%);
+      radial-gradient(ellipse 800px 500px at 85% -10%, rgba(232,169,58,0.14), transparent 60%),
+      radial-gradient(ellipse 600px 400px at 10% 110%, rgba(201,80,42,0.12), transparent 60%),
+      var(--ink);
   }
-
+  a{ color:inherit; }
+  h1{ font-family:'Oswald', sans-serif; text-transform:uppercase; letter-spacing:0.02em; margin:0; }
   .card{
-    width:100%;
-    background:var(--steel);
-    border:1px solid var(--line);
-    border-radius:var(--radius);
-    padding:44px 32px;
-    text-align:center;
+    max-width:480px; width:100%; text-align:center;
+    border:1px solid var(--line); background:var(--steel); border-radius:var(--radius);
+    padding:48px 36px;
   }
-
-  .check{
-    width:64px; height:64px; margin:0 auto 22px;
-    border-radius:50%;
-    background:rgba(63,160,137,0.14);
-    border:1px solid rgba(63,160,137,0.4);
+  .icon{
+    width:56px; height:56px; border-radius:50%;
     display:flex; align-items:center; justify-content:center;
+    margin:0 auto 22px; font-size:26px;
   }
-  .check svg{ width:30px; height:30px; }
-
+  .icon.pending{ background:rgba(232,169,58,0.15); border:1px solid rgba(232,169,58,0.4); color:var(--gold); }
+  .icon.success{ background:rgba(63,160,137,0.15); border:1px solid rgba(63,160,137,0.4); color:var(--teal); }
+  .icon.fail{ background:rgba(201,80,42,0.15); border:1px solid rgba(201,80,42,0.4); color:var(--ember); }
+  .spinner{
+    width:22px; height:22px; border:3px solid rgba(232,169,58,0.3); border-top-color:var(--gold);
+    border-radius:50%; animation:spin .8s linear infinite;
+  }
+  @keyframes spin{ to{ transform:rotate(360deg); } }
   .eyebrow{
-    font-family:'JetBrains Mono', monospace;
-    font-size:12px;
-    letter-spacing:0.16em;
-    text-transform:uppercase;
-    color:var(--gold);
-    margin-bottom:10px;
+    font-family:'JetBrains Mono', monospace; font-size:12px; letter-spacing:0.16em;
+    text-transform:uppercase; color:var(--gold); margin-bottom:12px;
   }
-  h1{ font-size:clamp(26px,6vw,36px); margin-bottom:14px; line-height:1.1; }
-  .sub{ color:var(--slate); font-size:15px; max-width:44ch; margin:0 auto 30px; }
-
+  h1{ font-size:26px; margin-bottom:14px; }
+  p{ color:var(--slate); font-size:15px; margin:0 0 28px; }
   .btn{
     display:inline-flex; align-items:center; justify-content:center; gap:8px;
-    width:100%;
-    padding:17px 22px;
-    border-radius:var(--radius);
-    font-family:'Oswald'; font-weight:600; text-transform:uppercase; letter-spacing:0.05em; font-size:15px;
-    text-decoration:none; border:1px solid transparent; cursor:pointer;
+    width:100%; padding:16px 26px; border-radius:var(--radius);
+    font-family:'Oswald'; font-weight:600; text-transform:uppercase; letter-spacing:0.05em; font-size:14px;
+    text-decoration:none; background:var(--gold); color:var(--ink); border:none; cursor:pointer;
   }
-  .btn-primary{ background:var(--gold); color:var(--ink); }
-  .btn-primary:hover{ background:#f2b752; }
-  .btn-ghost{
-    margin-top:12px;
-    background:transparent; color:var(--bone); border-color:var(--line);
-    font-size:13px; padding:13px 20px;
+  .btn:hover{ background:#f2b752; }
+  .btn:disabled{ opacity:0.5; cursor:not-allowed; }
+  .back{
+    display:inline-block; margin-top:20px; font-family:'JetBrains Mono'; font-size:12px;
+    letter-spacing:0.06em; text-transform:uppercase; color:var(--slate); text-decoration:none;
   }
-  .btn-ghost:hover{ border-color:var(--gold); color:var(--gold); }
-
-  .status{
-    margin-top:22px;
-    padding:13px 16px;
-    border-radius:var(--radius);
-    font-size:13px;
-    font-family:'JetBrains Mono', monospace;
-    display:none;
-  }
-  .status.show{ display:block; }
-  .status.pending{ background:rgba(232,169,58,0.1); color:var(--gold); border:1px solid rgba(232,169,58,0.3); }
-  .status.ready{ background:rgba(120,200,120,0.1); color:#8fdc8f; border:1px solid rgba(120,200,120,0.3); }
-
-  .help{
-    margin-top:28px;
-    padding-top:22px;
-    border-top:1px solid var(--line);
-    font-size:12px;
-    color:var(--slate);
-  }
-  .help a{ color:var(--gold); text-decoration:none; }
-  .help a:hover{ text-decoration:underline; }
-
-  @media (max-width: 600px){
-    main{ padding:32px 0; }
-    .card{ padding:32px 22px; }
-  }
+  .back:hover{ color:var(--gold); }
 </style>
 </head>
 <body>
 
-<main>
-  <div class="wrap">
-    <div class="card">
-      <div class="check">
-        <svg viewBox="0 0 24 24" fill="none" stroke="#3FA089" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M20 6L9 17l-5-5"></path>
-        </svg>
-      </div>
-      <div class="eyebrow">Payment received</div>
-      <h1>You're in. Thank you.</h1>
-      <p class="sub">Your copy of <strong>Own The Buyer</strong> is ready. Tap below to download your PDF — it's yours to keep, on any device.</p>
-
-      <a class="btn btn-primary" href="own-the-buyer.pdf" download id="downloadBtn">Download Your PDF</a>
-      <a class="btn btn-ghost" href="index.html">Back to homepage</a>
-
-      <div class="help">
-        Didn't get charged, or download not working? Message us on WhatsApp:<br>
-        <a href="https://wa.me/256758133343" target="_blank" rel="noopener">0758 133 343</a> ·
-        <a href="https://wa.me/256753553350" target="_blank" rel="noopener">0753 553 350</a>
-      </div>
-    </div>
-  </div>
-</main>
+<div class="card" id="card">
+  <div class="icon pending"><div class="spinner"></div></div>
+  <div class="eyebrow">Checking with PesaPal</div>
+  <h1 id="title">Confirming your payment…</h1>
+  <p id="message">Please wait a moment while we verify your transaction directly with PesaPal. Don't close this page.</p>
+  <a class="back" href="index.html">&larr; Back to the book page</a>
+</div>
 
 <script>
 /* ============================================================
-   Replace "own-the-buyer.pdf" above (and here) with the actual
-   filename/path of your book's PDF file, once it's uploaded to
-   the same folder as this page — or a full URL if it's hosted
-   elsewhere (e.g. Google Drive direct-download link, Dropbox, S3).
+   PASTE THE REAL LINK TO YOUR PDF HERE.
+   Host the PDF somewhere (your own repo, Google Drive "anyone
+   with the link", Dropbox, etc.) and put the direct file link
+   below. This link is only ever shown to the page AFTER PesaPal
+   has confirmed the payment, via a real server-side check.
    ============================================================ */
-const PDF_FILE = "own-the-buyer-book.pdf";
-document.getElementById('downloadBtn').setAttribute('href', PDF_FILE);
+const DOWNLOAD_URL = "own-the-buyer.pdf";
+
+const params = new URLSearchParams(window.location.search);
+const orderTrackingId = params.get('OrderTrackingId') || params.get('orderTrackingId');
+
+const card = document.getElementById('card');
+const titleEl = document.getElementById('title');
+const messageEl = document.getElementById('message');
+
+function renderSuccess(){
+  card.innerHTML = `
+    <div class="icon success">&#10003;</div>
+    <div class="eyebrow">Payment confirmed</div>
+    <h1>Your book is ready</h1>
+    <p>PesaPal confirmed your payment. Tap below to download your PDF — save it somewhere safe, it's yours to keep.</p>
+    <a class="btn" href="${DOWNLOAD_URL}" download>Download Own The Buyer (PDF)</a>
+    <a class="back" href="index.html">&larr; Back to the book page</a>
+  `;
+}
+
+function renderPending(statusLabel){
+  card.innerHTML = `
+    <div class="icon pending"><div class="spinner"></div></div>
+    <div class="eyebrow">Status: ${statusLabel || 'Pending'}</div>
+    <h1>Still confirming…</h1>
+    <p>PesaPal hasn't confirmed this payment as completed yet. If you just paid, this can take a few seconds — we'll keep checking automatically.</p>
+    <a class="back" href="index.html">&larr; Back to the book page</a>
+  `;
+}
+
+function renderFailed(statusLabel){
+  card.innerHTML = `
+    <div class="icon fail">&#33;</div>
+    <div class="eyebrow">Status: ${statusLabel || 'Not completed'}</div>
+    <h1>Payment not confirmed</h1>
+    <p>We couldn't confirm this payment as completed. If you believe this is a mistake, please contact us with your PesaPal confirmation so we can check manually.</p>
+    <div style="font-family:'JetBrains Mono'; font-size:13px; color:var(--gold); margin-top:10px;">0771 759 797 (WhatsApp)</div>
+    <a class="back" href="index.html">&larr; Back to the book page</a>
+  `;
+}
+
+function renderNoOrder(){
+  titleEl.textContent = "No payment found";
+  messageEl.textContent = "This page needs to be reached from a real PesaPal payment redirect. Please start from the book page and pay first.";
+  document.querySelector('.icon').classList.remove('pending');
+  document.querySelector('.icon').classList.add('fail');
+  document.querySelector('.icon').innerHTML = '&#33;';
+}
+
+async function checkStatus(attempt){
+  try{
+    const res = await fetch('/.netlify/functions/check-status?orderTrackingId=' + encodeURIComponent(orderTrackingId));
+    const data = await res.json();
+
+    if(data.paid){
+      renderSuccess();
+      return;
+    }
+
+    const failedStates = ['FAILED', 'INVALID', 'REVERSED'];
+    if(failedStates.includes((data.status || '').toUpperCase())){
+      renderFailed(data.status);
+      return;
+    }
+
+    // Still pending — poll a few more times before giving up.
+    if(attempt < 6){
+      renderPending(data.status);
+      setTimeout(() => checkStatus(attempt + 1), 4000);
+    } else {
+      renderPending(data.status);
+    }
+  }catch(err){
+    titleEl.textContent = "Couldn't check status";
+    messageEl.textContent = "Something went wrong contacting our server. Please refresh this page in a moment.";
+  }
+}
+
+if(!orderTrackingId){
+  renderNoOrder();
+} else {
+  checkStatus(0);
+}
 </script>
 
 </body>
