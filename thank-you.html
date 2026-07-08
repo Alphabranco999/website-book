@@ -3,166 +3,86 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Confirming Payment — Own The Buyer</title>
+<title>Payment Confirmed — Own The Buyer</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Source+Sans+3:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap');
   :root{
-    --ink:#101210; --steel:#1B2733; --gold:#E8A93A; --ember:#C9502A;
-    --bone:#F1ECE1; --slate:#9BA6AF; --teal:#3FA089; --line: rgba(241,236,225,0.12); --radius:3px;
+    --ink:#101210; --gold:#E8A93A; --bone:#F1ECE1; --slate:#9BA6AF;
+    --teal:#3FA089; --line: rgba(241,236,225,0.12); --radius:3px;
   }
   *{box-sizing:border-box;}
   body{
     margin:0; min-height:100vh; background:var(--ink); color:var(--bone);
-    font-family:'Source Sans 3', sans-serif; line-height:1.6; -webkit-font-smoothing:antialiased;
+    font-family:'Source Sans 3', sans-serif; line-height:1.6;
     display:flex; align-items:center; justify-content:center; padding:24px;
-    background:
-      radial-gradient(ellipse 800px 500px at 85% -10%, rgba(232,169,58,0.14), transparent 60%),
-      radial-gradient(ellipse 600px 400px at 10% 110%, rgba(201,80,42,0.12), transparent 60%),
-      var(--ink);
   }
-  a{ color:inherit; }
-  h1{ font-family:'Oswald', sans-serif; text-transform:uppercase; letter-spacing:0.02em; margin:0; }
+  h1,h2,.display{ font-family:'Oswald', sans-serif; text-transform:uppercase; letter-spacing:0.02em; margin:0; }
   .card{
-    max-width:480px; width:100%; text-align:center;
-    border:1px solid var(--line); background:var(--steel); border-radius:var(--radius);
-    padding:48px 36px;
+    max-width:520px; width:100%; text-align:center; border:1px solid var(--line);
+    background:#151815; padding:48px 36px; border-radius:var(--radius);
   }
-  .icon{
-    width:56px; height:56px; border-radius:50%;
+  .check{
+    width:64px; height:64px; margin:0 auto 20px; border-radius:50%;
+    background:rgba(63,160,137,0.15); border:1px solid var(--teal);
     display:flex; align-items:center; justify-content:center;
-    margin:0 auto 22px; font-size:26px;
   }
-  .icon.pending{ background:rgba(232,169,58,0.15); border:1px solid rgba(232,169,58,0.4); color:var(--gold); }
-  .icon.success{ background:rgba(63,160,137,0.15); border:1px solid rgba(63,160,137,0.4); color:var(--teal); }
-  .icon.fail{ background:rgba(201,80,42,0.15); border:1px solid rgba(201,80,42,0.4); color:var(--ember); }
-  .spinner{
-    width:22px; height:22px; border:3px solid rgba(232,169,58,0.3); border-top-color:var(--gold);
-    border-radius:50%; animation:spin .8s linear infinite;
-  }
-  @keyframes spin{ to{ transform:rotate(360deg); } }
+  .check svg{ width:30px; height:30px; }
   .eyebrow{
-    font-family:'JetBrains Mono', monospace; font-size:12px; letter-spacing:0.16em;
-    text-transform:uppercase; color:var(--gold); margin-bottom:12px;
+    font-family:'JetBrains Mono', monospace; font-size:12px; letter-spacing:0.18em;
+    text-transform:uppercase; color:var(--teal); margin-bottom:10px;
   }
   h1{ font-size:26px; margin-bottom:14px; }
   p{ color:var(--slate); font-size:15px; margin:0 0 28px; }
   .btn{
-    display:inline-flex; align-items:center; justify-content:center; gap:8px;
-    width:100%; padding:16px 26px; border-radius:var(--radius);
+    display:inline-flex; align-items:center; gap:8px; padding:15px 26px; border-radius:var(--radius);
     font-family:'Oswald'; font-weight:600; text-transform:uppercase; letter-spacing:0.05em; font-size:14px;
     text-decoration:none; background:var(--gold); color:var(--ink); border:none; cursor:pointer;
   }
   .btn:hover{ background:#f2b752; }
-  .btn:disabled{ opacity:0.5; cursor:not-allowed; }
-  .back{
-    display:inline-block; margin-top:20px; font-family:'JetBrains Mono'; font-size:12px;
-    letter-spacing:0.06em; text-transform:uppercase; color:var(--slate); text-decoration:none;
-  }
-  .back:hover{ color:var(--gold); }
+  .note{ margin-top:22px; font-size:12px; color:var(--slate); }
+  .note a{ color:var(--gold); }
 </style>
 </head>
 <body>
 
-<div class="card" id="card">
-  <div class="icon pending"><div class="spinner"></div></div>
-  <div class="eyebrow">Checking with PesaPal</div>
-  <h1 id="title">Confirming your payment…</h1>
-  <p id="message">Please wait a moment while we verify your transaction directly with PesaPal. Don't close this page.</p>
-  <a class="back" href="index.html">&larr; Back to the book page</a>
+<div class="card">
+  <div class="check">
+    <svg viewBox="0 0 24 24" fill="none" stroke="#3FA089" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="20 6 9 17 4 12"></polyline>
+    </svg>
+  </div>
+  <div class="eyebrow">Payment confirmed</div>
+  <h1>You're in. Thank you.</h1>
+  <p>Your payment for <b>Own The Buyer</b> went through. Your PDF download is ready below — save it somewhere you'll find it again.</p>
+
+  <a class="btn" href="own-the-buyer.pdf" download>Download Your PDF</a>
+
+  <div class="note">
+    Trouble downloading? Message the authors directly: 0758 133 343 · 0753 553 350<br>
+    <a href="index.html">Back to the book page</a>
+  </div>
 </div>
 
-<script>
-/* ============================================================
-   PASTE THE REAL LINK TO YOUR PDF HERE.
-   Host the PDF somewhere (your own repo, Google Drive "anyone
-   with the link", Dropbox, etc.) and put the direct file link
-   below. This link is only ever shown to the page AFTER PesaPal
-   has confirmed the payment, via a real server-side check.
-   ============================================================ */
-const DOWNLOAD_URL = "own-the-buyer.pdf";
-
-const params = new URLSearchParams(window.location.search);
-const orderTrackingId = params.get('OrderTrackingId') || params.get('orderTrackingId');
-
-const card = document.getElementById('card');
-const titleEl = document.getElementById('title');
-const messageEl = document.getElementById('message');
-
-function renderSuccess(){
-  card.innerHTML = `
-    <div class="icon success">&#10003;</div>
-    <div class="eyebrow">Payment confirmed</div>
-    <h1>Your book is ready</h1>
-    <p>PesaPal confirmed your payment. Tap below to download your PDF — save it somewhere safe, it's yours to keep.</p>
-    <a class="btn" href="${DOWNLOAD_URL}" download>Download Own The Buyer (PDF)</a>
-    <a class="back" href="index.html">&larr; Back to the book page</a>
-  `;
-}
-
-function renderPending(statusLabel){
-  card.innerHTML = `
-    <div class="icon pending"><div class="spinner"></div></div>
-    <div class="eyebrow">Status: ${statusLabel || 'Pending'}</div>
-    <h1>Still confirming…</h1>
-    <p>PesaPal hasn't confirmed this payment as completed yet. If you just paid, this can take a few seconds — we'll keep checking automatically.</p>
-    <a class="back" href="index.html">&larr; Back to the book page</a>
-  `;
-}
-
-function renderFailed(statusLabel){
-  card.innerHTML = `
-    <div class="icon fail">&#33;</div>
-    <div class="eyebrow">Status: ${statusLabel || 'Not completed'}</div>
-    <h1>Payment not confirmed</h1>
-    <p>We couldn't confirm this payment as completed. If you believe this is a mistake, please contact us with your PesaPal confirmation so we can check manually.</p>
-    <div style="font-family:'JetBrains Mono'; font-size:13px; color:var(--gold); margin-top:10px;">0771 759 797 (WhatsApp)</div>
-    <a class="back" href="index.html">&larr; Back to the book page</a>
-  `;
-}
-
-function renderNoOrder(){
-  titleEl.textContent = "No payment found";
-  messageEl.textContent = "This page needs to be reached from a real PesaPal payment redirect. Please start from the book page and pay first.";
-  document.querySelector('.icon').classList.remove('pending');
-  document.querySelector('.icon').classList.add('fail');
-  document.querySelector('.icon').innerHTML = '&#33;';
-}
-
-async function checkStatus(attempt){
-  try{
-    const res = await fetch('/.netlify/functions/check-status?orderTrackingId=' + encodeURIComponent(orderTrackingId));
-    const data = await res.json();
-
-    if(data.paid){
-      renderSuccess();
-      return;
-    }
-
-    const failedStates = ['FAILED', 'INVALID', 'REVERSED'];
-    if(failedStates.includes((data.status || '').toUpperCase())){
-      renderFailed(data.status);
-      return;
-    }
-
-    // Still pending — poll a few more times before giving up.
-    if(attempt < 6){
-      renderPending(data.status);
-      setTimeout(() => checkStatus(attempt + 1), 4000);
-    } else {
-      renderPending(data.status);
-    }
-  }catch(err){
-    titleEl.textContent = "Couldn't check status";
-    messageEl.textContent = "Something went wrong contacting our server. Please refresh this page in a moment.";
-  }
-}
-
-if(!orderTrackingId){
-  renderNoOrder();
-} else {
-  checkStatus(0);
-}
-</script>
+<!-- ============================================================
+     SETUP NOTE FOR YOU (not shown to buyers):
+     1. Upload your real PDF to this same folder and name it
+        own-the-buyer.pdf (or change the href above to match).
+     2. This page must ONLY be reachable the way PesaPal reaches
+        it — via the "Redirect URL" you set in your PesaPal
+        dashboard for the UGX 20,000 payment link, pointed at:
+          https://yourdomain.com/thank-you.html
+        PesaPal only sends buyers here after it has confirmed
+        their payment actually succeeded. People who cancel or
+        fail payment stay on PesaPal's own page instead.
+     3. Because this is a static page, anyone who somehow guesses
+        or is given this exact URL could technically open it
+        without paying — there is no server here to check. That's
+        the trade-off of a no-backend setup. If that risk matters
+        to you (e.g. this URL gets shared publicly), the fix is a
+        small serverless function that verifies the OrderTrackingId
+        against PesaPal's API before releasing the PDF link — just
+        say the word and I can build that version too.
+     ============================================================ -->
 
 </body>
 </html>
