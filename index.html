@@ -501,7 +501,7 @@
     <div>
       <div class="eyebrow">Get your copy</div>
       <h2 style="font-size:34px; margin-bottom:16px;">Read it tonight. Start applying it tomorrow at 4am.</h2>
-      <p style="color:var(--slate); max-width:44ch;">Pay with the mobile money wallet you already use. No card, no bank visit. After you pay, send your proof of payment on WhatsApp and we'll send your PDF straight there.</p>
+      <p style="color:var(--slate); max-width:44ch;">Pay with the mobile money wallet you already use. No card, no bank visit. Your download unlocks the moment PesaPal confirms your payment.</p>
     </div>
     <div class="buy-card">
       <div class="buy-card-head">
@@ -511,7 +511,7 @@
         </div>
         <img class="buy-thumb" src="own-the-buyer-cover-thumb.jpg" alt="Own The Buyer book cover thumbnail">
       </div>
-      <p style="color:var(--slate); font-size:13px;">One-time payment · delivered on WhatsApp · yours to keep</p>
+      <p style="color:var(--slate); font-size:13px;">One-time payment · confirmed by PesaPal · yours to keep</p>
       <ul>
         <li>Full 8-chapter book, comic-illustrated chapter openers included</li>
         <li>Sales Athlete Daily Scorecard tracker</li>
@@ -528,19 +528,21 @@
         <label for="agreeTerms">I've read and agree to the <a href="terms.html" target="_blank" rel="noopener">Terms &amp; Conditions</a>, including the no-refund policy on digital downloads and the delivery process below.</label>
       </div>
 
-      <button class="btn btn-primary full-btn" id="payBtn" onclick="goToPesapal()" disabled>Step 1 — Pay UGX 20,000 via PesaPal</button>
+      <div class="agree-row" style="margin-bottom:14px;">
+        <label for="buyerEmail" style="display:block; margin-bottom:8px; cursor:default;">Email (for your receipt &amp; delivery backup)</label>
+      </div>
+      <input type="email" id="buyerEmail" placeholder="you@example.com" required
+        style="width:100%; padding:12px 14px; margin-bottom:18px; background:var(--ink); border:1px solid var(--line); color:var(--bone); border-radius:var(--radius); font-family:'Source Sans 3'; font-size:15px;">
 
-      <div class="steps-card" id="stepsCard">
-        <h4>Step 2 — Get your book</h4>
-        <ol>
-          <li>Finish your payment on the PesaPal tab that just opened (MTN or Airtel).</li>
-          <li>Come back here and tap the button below — it opens WhatsApp with a message ready to send.</li>
-          <li>Send it along with your payment confirmation SMS or screenshot. We verify it and reply with your PDF, usually within a few hours.</li>
-        </ol>
-        <a class="btn btn-teal full-btn" id="waBtn" href="#" target="_blank" rel="noopener">Send Proof of Payment on WhatsApp</a>
+      <div class="agree-row">
+        <input type="checkbox" id="agreeTerms" onchange="onAgreeChange()">
+        <label for="agreeTerms">I've read and agree to the <a href="terms.html" target="_blank" rel="noopener">Terms &amp; Conditions</a>, including the no-refund policy on digital downloads.</label>
       </div>
 
-      <div class="note">We don't release the PDF the moment you tap "Pay" — this protects both of us. Your book is confirmed and sent by a real person once we can see the payment actually went through.</div>
+      <button class="btn btn-primary full-btn" id="payBtn" onclick="goToPesapal()" disabled>Pay UGX 20,000 &amp; Download</button>
+
+      <div class="note" id="payError" style="display:none; color:#e08787;"></div>
+      <div class="note">You'll pay on PesaPal with MTN or Airtel, then be brought back here. Your download unlocks automatically the moment PesaPal confirms the payment really went through — usually within seconds.</div>
     </div>
   </div>
 </section>
@@ -628,30 +630,47 @@
 </footer>
 
 <script>
-/* ============================================================
-   WHATSAPP NUMBER FOR PROOF-OF-PAYMENT DELIVERY
-   Format: country code + number, NO leading 0, NO +, NO spaces.
-   Uganda 0758 133 343 -> 256758133343
-   ============================================================ */
-const WHATSAPP_NUMBER = "256758133343";
-const PESAPAL_PAYMENT_LINK = "https://store.pesapal.com/alpha";
-const BOOK_PRICE = "UGX 20,000";
-const BOOK_NAME = "Own The Buyer";
-
 function onAgreeChange(){
   document.getElementById('payBtn').disabled = !document.getElementById('agreeTerms').checked;
 }
 
-function goToPesapal(){
+async function goToPesapal(){
   if(!document.getElementById('agreeTerms').checked) return;
 
-  window.open(PESAPAL_PAYMENT_LINK, '_blank', 'noopener');
+  const email = document.getElementById('buyerEmail').value.trim();
+  const errBox = document.getElementById('payError');
+  errBox.style.display = 'none';
 
-  const message = "Hi! I just paid " + BOOK_PRICE + " for \"" + BOOK_NAME + "\" via PesaPal. My name is: [your name]. Here is my payment confirmation:";
-  const waLink = "https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent(message);
-  document.getElementById('waBtn').setAttribute('href', waLink);
-  document.getElementById('stepsCard').classList.add('show');
-  document.getElementById('stepsCard').scrollIntoView({ behavior: 'smooth', block: 'center' });
+  if(!email || !email.includes('@')){
+    errBox.textContent = 'Please enter a valid email address first.';
+    errBox.style.display = 'block';
+    return;
+  }
+
+  const btn = document.getElementById('payBtn');
+  btn.disabled = true;
+  btn.textContent = 'Setting up payment…';
+
+  try{
+    const res = await fetch('/.netlify/functions/create-order', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email })
+    });
+    const data = await res.json();
+
+    if(!res.ok || !data.redirect_url){
+      throw new Error(data.error || 'Could not start payment. Please try again.');
+    }
+
+    // Send the buyer to the REAL PesaPal payment page for this order.
+    window.location.href = data.redirect_url;
+  }catch(err){
+    errBox.textContent = err.message || 'Something went wrong. Please try again.';
+    errBox.style.display = 'block';
+    btn.disabled = false;
+    btn.textContent = 'Pay UGX 20,000 & Download';
+  }
 }
 
 /* Mobile nav toggle */
