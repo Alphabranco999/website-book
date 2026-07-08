@@ -78,7 +78,6 @@
   .nav-cta.jobs{ background:transparent; color:var(--teal); border:1px solid var(--teal); }
   .nav-desktop{ display:flex; align-items:center; gap:28px; flex:1; justify-content:flex-end; }
 
-  /* Hamburger — hidden on desktop, shown on mobile */
   .nav-burger{
     display:none; flex:none; width:40px; height:40px; border:1px solid var(--line); border-radius:var(--radius);
     background:transparent; cursor:pointer; position:relative;
@@ -144,7 +143,6 @@
   .price-tag{ font-family:'JetBrains Mono'; font-size:14px; color:var(--slate); }
   .price-tag b{ color:var(--bone); font-size:16px; }
 
-  /* BOOK COVER DISPLAY — signature hero visual */
   .book-display{
     position:relative;
     display:flex;
@@ -204,14 +202,12 @@
   }
   .book-caption b{ color:var(--gold); }
 
-  /* INSIDE / CHAPTERS */
   .chapters{ display:grid; grid-template-columns:repeat(2,1fr); gap:1px; background:var(--line); border:1px solid var(--line); margin-top:44px; }
   .chapter{ background:var(--ink); padding:28px 26px; display:flex; gap:18px; }
   .chapter .num{ font-family:'JetBrains Mono'; color:var(--ember); font-weight:700; font-size:22px; min-width:34px; }
   .chapter h3{ font-size:16px; margin-bottom:6px; letter-spacing:0.01em; }
   .chapter p{ color:var(--slate); font-size:14px; margin:0; }
 
-  /* SCORECARD */
   .scorecard{ margin-top:48px; border:1px solid var(--line); background:var(--steel); }
   .scorecard-head{ padding:22px 28px; border-bottom:1px solid var(--line); display:flex; justify-content:space-between; align-items:baseline; }
   .scorecard-head h3{ font-size:15px; color:var(--gold); }
@@ -222,7 +218,6 @@
   table td.pts{ font-family:'JetBrains Mono'; color:var(--gold); text-align:right; }
   table tr:last-child td{ border-bottom:none; }
 
-  /* BUY */
   .buy-section{ background:var(--steel); }
   .buy-grid{ display:grid; grid-template-columns:1fr 1fr; gap:56px; align-items:start; }
   .buy-card{
@@ -249,9 +244,8 @@
   .full-btn{ width:100%; text-align:center; justify-content:center; }
   .note{ font-size:12px; color:var(--slate); margin-top:14px; }
 
-  /* Terms agreement row on the buy card */
   .agree-row{
-    display:flex; align-items:flex-start; gap:10px; margin:6px 0 18px;
+    display:flex; align-items:flex-start; gap:10px; margin:6px 0 22px;
     font-size:13px; color:var(--slate);
   }
   .agree-row input[type="checkbox"]{
@@ -260,23 +254,6 @@
   .agree-row label{ cursor:pointer; }
   .agree-row a{ color:var(--gold); text-decoration:underline; }
 
-  /* Steps card shown after clicking pay */
-  .steps-card{
-    display:none;
-    margin-top:18px;
-    border:1px solid rgba(232,169,58,0.35);
-    background:rgba(232,169,58,0.06);
-    border-radius:var(--radius);
-    padding:20px 22px;
-  }
-  .steps-card.show{ display:block; }
-  .steps-card h4{ font-size:13px; letter-spacing:0.06em; text-transform:uppercase; color:var(--gold); margin-bottom:12px; font-family:'JetBrains Mono'; }
-  .steps-card ol{ margin:0; padding-left:18px; color:var(--bone); font-size:14px; }
-  .steps-card li{ margin-bottom:10px; }
-  .steps-card li:last-child{ margin-bottom:0; }
-  .steps-card .btn-teal{ margin-top:14px; }
-
-  /* JOBS CTA — sits below the buy section */
   .jobs-section{
     background:
       radial-gradient(ellipse 700px 400px at 15% 0%, rgba(63,160,137,0.14), transparent 60%);
@@ -296,7 +273,6 @@
   .jobs-card p{ color:var(--slate); font-size:15px; max-width:52ch; margin:0; }
   .jobs-card .btn-teal{ flex:none; }
 
-  /* AUTHOR */
   .authors{ display:grid; grid-template-columns:1fr 1fr; gap:40px; margin-top:48px; }
   .author-card{ border:1px solid var(--line); padding:32px; }
   .avatar{
@@ -310,7 +286,6 @@
   .author-card p{ color:var(--slate); font-size:14px; }
   .author-contact{ margin-top:14px; font-family:'JetBrains Mono'; font-size:13px; color:var(--gold); }
 
-  /* COMING SOON */
   .soon-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:24px; margin-top:44px; }
   .soon-card{ border:1px dashed var(--line); padding:24px; position:relative; display:flex; flex-direction:column; }
   .soon-tag{ align-self:flex-start; font-family:'JetBrains Mono'; font-size:10px; background:var(--ember); color:var(--bone); padding:4px 9px; letter-spacing:0.08em; text-transform:uppercase; margin-bottom:16px; }
@@ -327,7 +302,6 @@
   .footer-links{ display:flex; gap:16px; flex-wrap:wrap; }
   .footer-links a{ text-decoration:underline; }
 
-  /* MOBILE / TABLET */
   @media (max-width: 860px){
     .hero-grid, .buy-grid, .authors{ grid-template-columns:1fr; }
     .chapters, .soon-grid{ grid-template-columns:1fr; }
@@ -434,7 +408,7 @@
     <a href="#authors" onclick="closeMobileNav()">Authors</a>
     <a href="#jobs" onclick="closeMobileNav()">Find Work</a>
     <a href="#soon" onclick="closeMobileNav()">Coming Soon</a>
-    <a href="terms.html">Terms &amp; Conditions</a>
+    <a href="terms.html" onclick="closeMobileNav()">Terms &amp; Conditions</a>
     <a class="nav-cta jobs" href="https://jobslinkuganda.online" target="_blank" rel="noopener">Find Job or Worker</a>
     <a class="nav-cta" href="#buy" onclick="closeMobileNav()">Get the Book — 20,000 UGX</a>
   </div>
@@ -501,7 +475,7 @@
     <div>
       <div class="eyebrow">Get your copy</div>
       <h2 style="font-size:34px; margin-bottom:16px;">Read it tonight. Start applying it tomorrow at 4am.</h2>
-      <p style="color:var(--slate); max-width:44ch;">Pay with the mobile money wallet you already use. No card, no bank visit. Your download unlocks the moment PesaPal confirms your payment.</p>
+      <p style="color:var(--slate); max-width:44ch;">Pay with the mobile money wallet you already use. No card, no bank visit. As soon as PesaPal confirms your payment, you'll land on your download page automatically. If you don't complete payment, you'll simply stay on PesaPal or come back here — you will never be sent to the download page.</p>
     </div>
     <div class="buy-card">
       <div class="buy-card-head">
@@ -511,7 +485,7 @@
         </div>
         <img class="buy-thumb" src="own-the-buyer-cover-thumb.jpg" alt="Own The Buyer book cover thumbnail">
       </div>
-      <p style="color:var(--slate); font-size:13px;">One-time payment · confirmed by PesaPal · yours to keep</p>
+      <p style="color:var(--slate); font-size:13px;">One-time payment · instant download · yours to keep</p>
       <ul>
         <li>Full 8-chapter book, comic-illustrated chapter openers included</li>
         <li>Sales Athlete Daily Scorecard tracker</li>
@@ -525,24 +499,12 @@
 
       <div class="agree-row">
         <input type="checkbox" id="agreeTerms" onchange="onAgreeChange()">
-        <label for="agreeTerms">I've read and agree to the <a href="terms.html" target="_blank" rel="noopener">Terms &amp; Conditions</a>, including the no-refund policy on digital downloads and the delivery process below.</label>
-      </div>
-
-      <div class="agree-row" style="margin-bottom:14px;">
-        <label for="buyerEmail" style="display:block; margin-bottom:8px; cursor:default;">Email (for your receipt &amp; delivery backup)</label>
-      </div>
-      <input type="email" id="buyerEmail" placeholder="you@example.com" required
-        style="width:100%; padding:12px 14px; margin-bottom:18px; background:var(--ink); border:1px solid var(--line); color:var(--bone); border-radius:var(--radius); font-family:'Source Sans 3'; font-size:15px;">
-
-      <div class="agree-row">
-        <input type="checkbox" id="agreeTerms" onchange="onAgreeChange()">
         <label for="agreeTerms">I've read and agree to the <a href="terms.html" target="_blank" rel="noopener">Terms &amp; Conditions</a>, including the no-refund policy on digital downloads.</label>
       </div>
 
       <button class="btn btn-primary full-btn" id="payBtn" onclick="goToPesapal()" disabled>Pay UGX 20,000 &amp; Download</button>
 
-      <div class="note" id="payError" style="display:none; color:#e08787;"></div>
-      <div class="note">You'll pay on PesaPal with MTN or Airtel, then be brought back here. Your download unlocks automatically the moment PesaPal confirms the payment really went through — usually within seconds.</div>
+      <div class="note">You'll be taken to PesaPal's secure payment page to pay with MTN or Airtel. If payment succeeds, PesaPal brings you straight back here to your download. If you cancel, fail, or close the page without paying, you'll never reach the download page.</div>
     </div>
   </div>
 </section>
@@ -566,7 +528,7 @@
     <h2 style="font-size:34px;">The authors</h2>
     <div class="authors">
       <div class="author-card">
-        <div class="avatar"><img src="img-20260706-WA0000.jpg" alt="Marvin Samuel Ssemanda"></div>
+        <div class="avatar"><img src="IMG-20260706-WA0000.jpg" alt="Marvin Samuel Ssemanda"></div>
         <h3>Marvin Samuel Ssemanda</h3>
         <span class="author-role">Author</span>
         <p>Writes on selling as a survival skill and a way out of poverty — drawing from real deals, real brokers, and real rejection, not theory.</p>
@@ -625,52 +587,47 @@
     <div>For seminars or corrections on the book:<br>0758 133 343 · 0753 553 350</div>
     <div class="footer-links">
       <a href="terms.html">Terms &amp; Conditions</a>
+      <span>Payments powered by PesaPal · MTN &amp; Airtel Mobile Money</span>
     </div>
   </div>
 </footer>
 
 <script>
+/* ============================================================
+   PASTE YOUR PESAPAL PAYMENT LINK HERE
+   Create it in your PesaPal dashboard: Create Invoice → Create
+   Payment Link → amount 20,000 UGX → Save. Paste the resulting
+   URL below (it looks like https://pay.pesapal.com/... or
+   https://store.pesapal.com/...).
+
+   THIS IS THE PART THAT KEEPS NON-PAYERS OFF THE THANK-YOU PAGE:
+   In your PesaPal merchant dashboard, open the settings for THIS
+   payment link and find the field called "Redirect URL" /
+   "Callback URL" / "Success URL". Set it to the LIVE address of
+   thank-you.html once this site is hosted, e.g.:
+     https://yourdomain.com/thank-you.html
+
+   PesaPal only sends the buyer to that URL AFTER it has confirmed
+   the payment actually went through. If someone cancels, closes
+   the tab, or the payment fails, PesaPal keeps them on its own
+   page (or its own "payment failed" screen) — they are never
+   forwarded to thank-you.html. A plain static site like this one
+   cannot detect payment status on its own; PesaPal's redirect
+   setting is what enforces the rule.
+   ============================================================ */
+const PESAPAL_PAYMENT_LINK = "https://store.pesapal.com/alpha";
+
 function onAgreeChange(){
   document.getElementById('payBtn').disabled = !document.getElementById('agreeTerms').checked;
 }
 
-async function goToPesapal(){
+function goToPesapal(){
   if(!document.getElementById('agreeTerms').checked) return;
-
-  const email = document.getElementById('buyerEmail').value.trim();
-  const errBox = document.getElementById('payError');
-  errBox.style.display = 'none';
-
-  if(!email || !email.includes('@')){
-    errBox.textContent = 'Please enter a valid email address first.';
-    errBox.style.display = 'block';
+  if(PESAPAL_PAYMENT_LINK.includes("PASTE_YOUR")){
+    alert("Add your PesaPal payment link first — see PESAPAL_PAYMENT_LINK near the top of the <script> tag.");
     return;
   }
-
-  const btn = document.getElementById('payBtn');
-  btn.disabled = true;
-  btn.textContent = 'Setting up payment…';
-
-  try{
-    const res = await fetch('/.netlify/functions/create-order', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email })
-    });
-    const data = await res.json();
-
-    if(!res.ok || !data.redirect_url){
-      throw new Error(data.error || 'Could not start payment. Please try again.');
-    }
-
-    // Send the buyer to the REAL PesaPal payment page for this order.
-    window.location.href = data.redirect_url;
-  }catch(err){
-    errBox.textContent = err.message || 'Something went wrong. Please try again.';
-    errBox.style.display = 'block';
-    btn.disabled = false;
-    btn.textContent = 'Pay UGX 20,000 & Download';
-  }
+  window.location.href = PESAPAL_PAYMENT_LINK;
 }
 
 /* Mobile nav toggle */
