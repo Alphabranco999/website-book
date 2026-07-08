@@ -6,20 +6,101 @@
 <title>Payment Confirmed — Own The Buyer</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Source+Sans+3:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap');
+
   :root{
-    --ink:#101210; --gold:#E8A93A; --bone:#F1ECE1; --slate:#9BA6AF;
-    --teal:#3FA089; --line: rgba(241,236,225,0.12); --radius:3px;
+    --ink:#101210;
+    --steel:#1B2733;
+    --steel-2:#233343;
+    --gold:#E8A93A;
+    --ember:#C9502A;
+    --bone:#F1ECE1;
+    --slate:#9BA6AF;
+    --teal:#3FA089;
+    --teal-2:#2C7A68;
+    --line: rgba(241,236,225,0.12);
+    --radius: 3px;
   }
   *{box-sizing:border-box;}
+  html{scroll-behavior:smooth; -webkit-text-size-adjust:100%;}
+  html, body{ max-width:100%; overflow-x:hidden; }
   body{
-    margin:0; min-height:100vh; background:var(--ink); color:var(--bone);
-    font-family:'Source Sans 3', sans-serif; line-height:1.6;
-    display:flex; align-items:center; justify-content:center; padding:24px;
+    margin:0;
+    background:var(--ink);
+    color:var(--bone);
+    font-family:'Source Sans 3', sans-serif;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
   }
-  h1,h2,.display{ font-family:'Oswald', sans-serif; text-transform:uppercase; letter-spacing:0.02em; margin:0; }
+  img{ max-width:100%; }
+  button{ font-family:inherit; }
+  h1,h2,h3,.display{
+    font-family:'Oswald', sans-serif;
+    text-transform:uppercase;
+    letter-spacing:0.02em;
+    margin:0;
+  }
+  .mono{ font-family:'JetBrains Mono', monospace; }
+  a{ color:inherit; }
+  .wrap{ max-width:1120px; margin:0 auto; padding:0 24px; }
+
+  .eyebrow{
+    font-family:'JetBrains Mono', monospace;
+    font-size:12px;
+    letter-spacing:0.18em;
+    text-transform:uppercase;
+    color:var(--gold);
+    margin-bottom:14px;
+    display:flex; align-items:center; gap:10px;
+    justify-content:center;
+  }
+  .eyebrow::before{ content:''; width:22px; height:1px; background:var(--gold); display:inline-block; }
+  .eyebrow.teal{ color:var(--teal); }
+  .eyebrow.teal::before{ background:var(--teal); }
+
+  /* NAV */
+  nav{
+    position:sticky; top:0; z-index:50;
+    background:rgba(16,18,16,0.92);
+    backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--line);
+  }
+  nav .wrap{ display:flex; align-items:center; justify-content:space-between; padding:16px 24px; gap:16px; }
+  .brand{ font-family:'Oswald'; font-weight:700; font-size:18px; letter-spacing:0.06em; text-transform:uppercase; flex:none; }
+  .brand span{ color:var(--gold); }
+  .nav-cta{
+    background:var(--gold); color:var(--ink); padding:9px 18px; border-radius:var(--radius);
+    font-weight:600; font-size:13px; text-transform:uppercase; letter-spacing:0.06em; text-decoration:none;
+    white-space:nowrap;
+  }
+
+  .btn{
+    display:inline-flex; align-items:center; gap:8px; padding:15px 26px; border-radius:var(--radius);
+    font-family:'Oswald'; font-weight:600; text-transform:uppercase; letter-spacing:0.05em; font-size:14px;
+    text-decoration:none; border:1px solid transparent; cursor:pointer;
+  }
+  .btn-primary{ background:var(--gold); color:var(--ink); }
+  .btn-primary:hover{ background:#f2b752; }
+  .btn-ghost{ border-color:var(--line); color:var(--bone); background:transparent; }
+  .btn-ghost:hover{ border-color:var(--gold); color:var(--gold); }
+
+  /* MAIN CONFIRMATION AREA */
+  main{
+    flex:1;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:64px 24px;
+    background:
+      radial-gradient(ellipse 800px 500px at 85% -10%, rgba(232,169,58,0.14), transparent 60%),
+      radial-gradient(ellipse 600px 400px at 10% 110%, rgba(63,160,137,0.10), transparent 60%);
+  }
   .card{
-    max-width:520px; width:100%; text-align:center; border:1px solid var(--line);
-    background:#151815; padding:48px 36px; border-radius:var(--radius);
+    max-width:520px; width:100%; text-align:center;
+    border:1px solid var(--line); background:var(--steel);
+    padding:52px 40px; border-radius:var(--radius);
   }
   .check{
     width:64px; height:64px; margin:0 auto 20px; border-radius:50%;
@@ -27,41 +108,69 @@
     display:flex; align-items:center; justify-content:center;
   }
   .check svg{ width:30px; height:30px; }
-  .eyebrow{
-    font-family:'JetBrains Mono', monospace; font-size:12px; letter-spacing:0.18em;
-    text-transform:uppercase; color:var(--teal); margin-bottom:10px;
+  .card h1{ font-size:28px; margin-bottom:14px; line-height:1.15; }
+  .card p{ color:var(--slate); font-size:15px; margin:0 0 30px; }
+  .full-btn{ width:100%; text-align:center; justify-content:center; }
+  .note{ margin-top:24px; font-size:12px; color:var(--slate); }
+  .note a{ color:var(--gold); text-decoration:underline; }
+
+  footer{ padding:32px 0; border-top:1px solid var(--line); }
+  .footer-grid{ display:flex; justify-content:space-between; flex-wrap:wrap; gap:24px; font-size:13px; color:var(--slate); }
+  .footer-grid b{ color:var(--bone); }
+  .footer-links{ display:flex; gap:16px; flex-wrap:wrap; }
+  .footer-links a{ text-decoration:underline; }
+
+  @media (max-width: 600px){
+    nav .wrap{ padding:13px 16px; }
+    .brand{ font-size:15px; }
+    main{ padding:40px 18px; }
+    .card{ padding:36px 24px; }
+    .card h1{ font-size:22px; }
+    footer{ padding:24px 0; }
+    .footer-grid{ flex-direction:column; text-align:center; gap:14px; }
+    .footer-links{ justify-content:center; }
   }
-  h1{ font-size:26px; margin-bottom:14px; }
-  p{ color:var(--slate); font-size:15px; margin:0 0 28px; }
-  .btn{
-    display:inline-flex; align-items:center; gap:8px; padding:15px 26px; border-radius:var(--radius);
-    font-family:'Oswald'; font-weight:600; text-transform:uppercase; letter-spacing:0.05em; font-size:14px;
-    text-decoration:none; background:var(--gold); color:var(--ink); border:none; cursor:pointer;
-  }
-  .btn:hover{ background:#f2b752; }
-  .note{ margin-top:22px; font-size:12px; color:var(--slate); }
-  .note a{ color:var(--gold); }
 </style>
 </head>
 <body>
 
-<div class="card">
-  <div class="check">
-    <svg viewBox="0 0 24 24" fill="none" stroke="#3FA089" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-      <polyline points="20 6 9 17 4 12"></polyline>
-    </svg>
+<nav>
+  <div class="wrap">
+    <div class="brand">OWN <span>THE</span> BUYER</div>
+    <a class="nav-cta" href="index.html">Back to Book Page</a>
   </div>
-  <div class="eyebrow">Payment confirmed</div>
-  <h1>Payment Confirmed — Download Below</h1>
-  <p>Your payment for <b>Own The Buyer</b> went through. Your PDF download is ready below — save it somewhere you'll find it again.</p>
+</nav>
 
-  <a class="btn" href="own-the-buyer.pdf" download>Download Your PDF</a>
+<main>
+  <div class="card">
+    <div class="check">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#3FA089" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="20 6 9 17 4 12"></polyline>
+      </svg>
+    </div>
+    <div class="eyebrow">Payment confirmed</div>
+    <h1>Payment Confirmed — Download Below</h1>
+    <p>Your payment for <b>Own The Buyer</b> went through. Your PDF download is ready below — save it somewhere you'll find it again.</p>
 
-  <div class="note">
-    Trouble downloading? Message the authors directly: 0758 133 343 · 0753 553 350<br>
-    <a href="index.html">Back to the book page</a>
+    <a class="btn btn-primary full-btn" href="own-the-buyer.pdf" download>Download Your PDF</a>
+
+    <div class="note">
+      Trouble downloading? Message the authors directly: 0758 133 343 · 0753 553 350<br>
+      <a href="index.html">Back to the book page</a>
+    </div>
   </div>
-</div>
+</main>
+
+<footer>
+  <div class="wrap footer-grid">
+    <div><b>Own The Buyer</b><br>Marvin Samuel Ssemanda &amp; Ronet Francis Nabunnya</div>
+    <div>For seminars or corrections on the book:<br>0758 133 343 · 0753 553 350</div>
+    <div class="footer-links">
+      <a href="terms.html">Terms &amp; Conditions</a>
+      <span>Payments powered by PesaPal · MTN &amp; Airtel Mobile Money</span>
+    </div>
+  </div>
+</footer>
 
 <!-- ============================================================
      SETUP NOTE FOR YOU (not shown to buyers):
@@ -74,11 +183,11 @@
         PesaPal only sends buyers here after it has confirmed
         their payment actually succeeded. People who cancel or
         fail payment stay on PesaPal's own page instead.
-     3. Because this page no longer checks with PesaPal itself,
+     3. Because this page doesn't check with PesaPal itself,
         anyone who is given or guesses this exact URL could open
         it and download the PDF without paying — there is no
-        server-side check anymore. That's the trade-off of
-        removing verification.
+        server-side check. That's the trade-off of a no-backend
+        setup relying only on PesaPal's redirect setting.
      ============================================================ -->
 
 </body>
