@@ -275,22 +275,26 @@
 
   .authors{ display:grid; grid-template-columns:1fr 1fr; gap:40px; margin-top:48px; }
   .author-card{ border:1px solid var(--line); padding:32px; }
+
+  /* AVATAR — sized so the whole photo is always visible, no cropping, on any screen */
   .avatar{
-    width:290px;
-    height:500px;
-    border-radius:12px;      /* or 0 if you don't want rounded corners */
+    width:100%;
+    max-width:290px;
+    aspect-ratio:29/50;      /* matches the 290x500 desktop proportions */
+    border-radius:12px;
     overflow:hidden;
     display:flex;
     justify-content:center;
     align-items:center;
     background:var(--steel-2);
+    margin:0 auto;
   }
   .avatar img{
     width:100%;
     height:100%;
-    object-fit:contain;      /* Shows the full image */
+    object-fit:contain;      /* Shows the full image, never cropped */
     object-position:center;
-}
+  }
   .author-card h3{ font-size:19px; margin-bottom:4px; }
   .author-role{ font-family:'JetBrains Mono'; font-size:11px; color:var(--ember); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:14px; display:block; }
   .author-card p{ color:var(--slate); font-size:14px; }
@@ -311,6 +315,42 @@
   .footer-grid b{ color:var(--bone); }
   .footer-links{ display:flex; gap:16px; flex-wrap:wrap; }
   .footer-links a{ text-decoration:underline; }
+
+  /* WHATSAPP FLOATING BUTTON */
+  .whatsapp-float{
+    position:fixed;
+    right:20px;
+    bottom:20px;
+    z-index:1000;
+    width:58px;
+    height:58px;
+    border-radius:50%;
+    background:#25D366;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    box-shadow:0 6px 18px rgba(0,0,0,0.45), 0 0 0 1px rgba(255,255,255,0.06);
+    transition:transform .2s ease, box-shadow .2s ease;
+    text-decoration:none;
+  }
+  .whatsapp-float:hover{
+    transform:translateY(-3px) scale(1.05);
+    box-shadow:0 10px 24px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.08);
+  }
+  .whatsapp-float svg{ width:30px; height:30px; display:block; }
+  .whatsapp-float .wa-pulse{
+    position:absolute;
+    inset:0;
+    border-radius:50%;
+    background:#25D366;
+    opacity:0.55;
+    animation:wa-pulse 2.2s ease-out infinite;
+    z-index:-1;
+  }
+  @keyframes wa-pulse{
+    0%{ transform:scale(1); opacity:0.55; }
+    100%{ transform:scale(1.9); opacity:0; }
+  }
 
   @media (max-width: 860px){
     .hero-grid, .buy-grid, .authors{ grid-template-columns:1fr; }
@@ -371,7 +411,7 @@
     .jobs-card p{ font-size:13.5px; }
     .authors{ gap:20px; margin-top:32px; }
     .author-card{ padding:24px 20px; text-align:center; }
-    .avatar{ width:150px; height:110px; margin:0 auto 18px; }
+    .avatar{ max-width:190px; margin:0 auto 18px; }
     .author-card h3{ font-size:17px; }
     .author-role{ margin-bottom:12px; }
     .author-card p{ font-size:13.5px; }
@@ -384,6 +424,8 @@
     footer{ padding:32px 0; }
     .footer-grid{ flex-direction:column; text-align:center; gap:16px; font-size:12px; }
     .footer-links{ justify-content:center; }
+    .whatsapp-float{ right:14px; bottom:14px; width:52px; height:52px; }
+    .whatsapp-float svg{ width:27px; height:27px; }
   }
 
   @media (max-width: 380px){
@@ -601,6 +643,14 @@
     </div>
   </div>
 </footer>
+
+<!-- FLOATING WHATSAPP BUTTON -->
+<a class="whatsapp-float" href="https://wa.me/256758133443" target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
+  <span class="wa-pulse"></span>
+  <svg viewBox="0 0 32 32" fill="#ffffff" xmlns="http://www.w3.org/2000/svg">
+    <path d="M16.004 3C9.373 3 4 8.373 4 15.004c0 2.65.86 5.1 2.32 7.09L4.6 28.6l6.65-1.68a12.94 12.94 0 0 0 4.75.9h.005C23.03 27.82 28.4 22.45 28.4 15.82 28.4 9.19 23.03 3 16.004 3zm0 23.02h-.004a10.75 10.75 0 0 1-5.48-1.5l-.394-.234-3.947 1 1.053-3.847-.257-.395a10.78 10.78 0 0 1-1.65-5.744C5.325 9.36 10.1 4.98 16.004 4.98c2.87 0 5.567 1.12 7.6 3.15a10.73 10.73 0 0 1 3.15 7.6c0 5.9-4.38 10.29-10.75 10.29zm5.9-7.98c-.324-.163-1.91-.943-2.207-1.05-.297-.108-.513-.163-.73.163-.216.325-.838 1.05-1.028 1.267-.19.216-.378.244-.703.081-.324-.163-1.368-.504-2.606-1.607-.964-.86-1.615-1.92-1.804-2.245-.19-.325-.02-.5.143-.663.146-.146.325-.379.487-.568.163-.19.216-.325.324-.542.108-.216.054-.406-.027-.568-.081-.163-.73-1.757-1-2.406-.264-.633-.532-.547-.73-.557l-.622-.011c-.216 0-.568.081-.865.406-.297.325-1.135 1.108-1.135 2.702s1.162 3.135 1.324 3.352c.163.216 2.288 3.494 5.545 4.9.775.334 1.38.534 1.852.684.778.248 1.486.213 2.046.13.624-.093 1.91-.78 2.18-1.535.27-.756.27-1.404.19-1.54-.081-.135-.297-.216-.622-.379z"/>
+  </svg>
+</a>
 
 <script>
 /* ============================================================
