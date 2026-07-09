@@ -502,13 +502,9 @@
         <label for="agreeTerms">I've read and agree to the <a href="terms.html" target="_blank" rel="noopener">Terms &amp; Conditions</a>, including the no-refund policy on digital downloads.</label>
       </div>
 
-      <input type="email" id="buyerEmail" placeholder="Your email (for PesaPal receipt)" required
-        style="width:100%; padding:12px 14px; margin-bottom:16px; background:var(--ink); border:1px solid var(--line); color:var(--bone); border-radius:var(--radius); font-family:'Source Sans 3'; font-size:15px;">
-
       <button class="btn btn-primary full-btn" id="payBtn" onclick="goToPesapal()" disabled>Pay UGX 20,000 &amp; Download</button>
 
-      <div class="note" id="payError" style="display:none; color:#e08787;"></div>
-      <div class="note">You'll be taken to PesaPal's secure payment page to pay with MTN or Airtel. If payment succeeds, PesaPal brings you straight back here to your download. If you cancel, fail, or close the page without paying, you'll never reach the download page.</div>
+      <div class="note">You'll be taken to PesaPal's secure payment page to pay with MTN or Airtel. After you finish paying there, come back to this tab and click below to get your download.</div>
     </div>
   </div>
 </section>
@@ -598,54 +594,20 @@
 
 <script>
 /* ============================================================
-   No more static payment link needed here — the Pay button now
-   calls create-order.js, which creates a real PesaPal order with
-   a callback_url pointing to thank-you.html. That's what makes
-   PesaPal redirect buyers back automatically after real payment.
-   See SETUP.md for the environment variables you must set on
-   Netlify before this works.
+   PASTE YOUR PESAPAL PAYMENT LINK HERE
+   Create it in your PesaPal dashboard: Create Invoice → Create
+   Payment Link → amount 20,000 UGX → Save. Paste the resulting
+   URL below.
    ============================================================ */
+const PESAPAL_PAYMENT_LINK = "https://store.pesapal.com/alpha";
 
 function onAgreeChange(){
   document.getElementById('payBtn').disabled = !document.getElementById('agreeTerms').checked;
 }
 
-async function goToPesapal(){
+function goToPesapal(){
   if(!document.getElementById('agreeTerms').checked) return;
-
-  const email = document.getElementById('buyerEmail').value.trim();
-  const errBox = document.getElementById('payError');
-  errBox.style.display = 'none';
-
-  if(!email || !email.includes('@')){
-    errBox.textContent = 'Please enter a valid email address first.';
-    errBox.style.display = 'block';
-    return;
-  }
-
-  const btn = document.getElementById('payBtn');
-  btn.disabled = true;
-  btn.textContent = 'Setting up payment…';
-
-  try{
-    const res = await fetch('/.netlify/functions/create-order', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email })
-    });
-    const data = await res.json();
-
-    if(!res.ok || !data.redirect_url){
-      throw new Error(data.error || 'Could not start payment. Please try again.');
-    }
-
-    window.location.href = data.redirect_url;
-  }catch(err){
-    errBox.textContent = err.message || 'Something went wrong. Please try again.';
-    errBox.style.display = 'block';
-    btn.disabled = false;
-    btn.textContent = 'Pay UGX 20,000 & Download';
-  }
+  window.location.href = PESAPAL_PAYMENT_LINK;
 }
 
 /* Mobile nav toggle */
