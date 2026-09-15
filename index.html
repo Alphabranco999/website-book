@@ -257,34 +257,9 @@
   /* FREE QUESTIONS SECTION */
   .free-section{ background:var(--ink); }
   .free-pdf-actions{ display:flex; gap:14px; flex-wrap:wrap; margin-top:26px; }
-  .qa-grid{ display:grid; grid-template-columns:1fr 1fr; gap:32px; margin-top:44px; align-items:start; }
-  .qa-box{ border:1px solid var(--line); background:var(--steel); }
-  .qa-box-head{ padding:22px 28px; border-bottom:1px solid var(--line); }
-  .qa-box-head h3{ font-size:15px; color:var(--gold); margin-bottom:4px; }
-  .qa-box-head span{ font-family:'JetBrains Mono'; font-size:11px; color:var(--slate); letter-spacing:0.05em; }
-  .qa-list{ list-style:none; margin:0; padding:6px 28px 26px; counter-reset:qa; }
-  .qa-list li{ counter-increment:qa; padding:14px 0; border-bottom:1px dashed var(--line); font-size:14.5px; color:var(--bone); display:flex; gap:14px; }
-  .qa-list li:last-child{ border-bottom:none; }
-  .qa-list li::before{ content: counter(qa) '.'; font-family:'JetBrains Mono'; color:var(--ember); font-weight:700; flex:none; min-width:22px; }
-  .qa-pairs{ list-style:none; margin:0; padding:6px 28px 26px; }
-  .qa-pairs li{ display:flex; justify-content:space-between; gap:16px; padding:10px 0; border-bottom:1px dashed var(--line); font-size:14px; }
-  .qa-pairs li:last-child{ border-bottom:none; }
-  .qa-pairs li span:first-child{ color:var(--bone); }
-  .qa-pairs li span:last-child{ color:var(--teal); font-family:'JetBrains Mono'; text-align:right; }
-  .qa-bonus-tag{ display:inline-block; margin:20px 28px 0; font-family:'JetBrains Mono'; font-size:10px; letter-spacing:0.1em; text-transform:uppercase; background:var(--ember); color:var(--bone); padding:5px 10px; }
-  .qa-note{ padding:16px 28px 26px; font-size:12px; color:var(--slate); }
-  @media (max-width: 860px){
-    .qa-grid{ grid-template-columns:1fr; }
-  }
   @media (max-width: 600px){
     .free-pdf-actions{ flex-direction:column; align-items:stretch; }
     .free-pdf-actions .btn{ width:100%; justify-content:center; }
-    .qa-box-head{ padding:16px 18px; }
-    .qa-list{ padding:4px 18px 20px; }
-    .qa-list li{ font-size:13.5px; padding:12px 0; }
-    .qa-pairs{ padding:4px 18px 20px; }
-    .qa-bonus-tag{ margin:16px 18px 0; }
-    .qa-note{ padding:12px 18px 20px; }
   }
 
   .jobs-section{
@@ -613,56 +588,6 @@
     <div class="free-pdf-actions">
       <a class="btn btn-primary" href="own-the-buyer-free-questions.pdf" download>Download the Free PDF</a>
       <a class="btn btn-ghost" href="own-the-buyer-free-questions.pdf" target="_blank" rel="noopener">View in browser</a>
-    </div>
-
-    <div class="qa-grid">
-      <div class="qa-box">
-        <div class="qa-box-head">
-          <h3>Chapter 1 — Comprehension Questions</h3>
-          <span>14 questions · free preview</span>
-        </div>
-        <ol class="qa-list">
-          <li>According to Own The Buyer, why can someone have a good product and still fail to make money?</li>
-          <li>A person has a bigger degree, talent, and a good product, but nobody is buying. What is still missing, according to chapter 1?</li>
-          <li>If you wanted to make money without first creating your own product, what does chapter 1 say you could do?</li>
-          <li>Own The Buyer says strong selling can create opportunities from conversations. What are two other things strong selling can help you do?</li>
-          <li>The book says, "The world rewards people who can move people." What does this mean in practical selling?</li>
-          <li>Before trying to "Own The Buyer," what four things does chapter 1 say you should learn to own?</li>
-          <li>Imagine two people are selling furniture. One makes the furniture. The other knows many people who are ready to buy furniture. According to chapter 1, where might the greater selling power be? Why?</li>
-          <li>A land broker owns no land. How can the broker still make money from a land transaction?</li>
-          <li>Instead of putting your money into a factory, what three things does chapter 1 say you can build to create leverage?</li>
-          <li>If you want to enter an industry as a salesperson, should your first question be "What can I sell?" or should you first understand the people involved? Explain using the chapter 1 approach.</li>
-          <li>Choose one industry. Who are the customers, who are the buyers, and where can you find or meet those buyers?</li>
-          <li>After identifying producers and buyers, what are three ways chapter 1 says you could position yourself between them?</li>
-          <li>You meet someone who might buy, but you don't know whether they are serious. What three things should you check to qualify that prospect?</li>
-          <li>A person shows interest in your offer but has not yet bought. Using the glossary, what would you call this person, and what should you do next?</li>
-        </ol>
-      </div>
-
-      <div class="qa-box">
-        <div class="qa-box-head">
-          <h3>Bonus Worksheet — Leads, Prospects &amp; Terms</h3>
-          <span>6 questions + challenge · free preview</span>
-        </div>
-        <ol class="qa-list">
-          <li>Jane has started a branding business. Jovia has a brother sitting UNEB exams in S.4. If Jane is good at prospecting, would she include Jovia's brother on her generated leads list? Why?</li>
-          <li>What is the difference between a lead and a prospect?</li>
-          <li>What three things should you check during qualification?</li>
-          <li>Briefly explain a salesperson's funnel and how it differs from a pipeline.</li>
-          <li>State the difference between a referral and a broker.</li>
-          <li>Define these terms: value proposition, objection, margin, upsell, cross-sell.</li>
-        </ol>
-        <span class="qa-bonus-tag">Bonus challenge</span>
-        <ul class="qa-pairs">
-          <li><span>Imagine you are selling welding services. Identify:</span></li>
-          <li><span>The producer</span><span>A pain point</span></li>
-          <li><span>The buyer</span><span>Your value proposition</span></li>
-          <li><span>A lead</span><span>A possible referral partner</span></li>
-          <li><span>A prospect</span><span>Your margin</span></li>
-          <li><span>Your commission</span><span></span></li>
-        </ul>
-        <p class="qa-note">Answers are worked through in full inside the book, alongside 13 more chapters of scripts, scorecards, and the glossary.</p>
-      </div>
     </div>
   </div>
 </section>
